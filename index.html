@@ -17,7 +17,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css?v=3.6">
+  <link rel="stylesheet" href="assets/css/style.css?v=3.7">
 </head>
 <body>
   <!-- Dynamic Top Scroll Progress Indicator -->
@@ -1198,7 +1198,7 @@
       </div>
       <span>AI Help</span>
     </button>
-    <button class="dock-item mobile-nav-toggle" title="Open Navigation Menu">
+    <button class="dock-item dock-menu-btn mobile-nav-toggle" id="dock-menu-btn" title="Open Navigation Menu">
       <div class="dock-icon">☰</div>
       <span>Menu</span>
     </button>
@@ -1332,12 +1332,12 @@
     </div>
   </div>
 
-  <!-- Toast Notice -->
-  <div class="toast-notice" id="toast-feedback">
-    <span id="toast-text">Thank you! Your inquiry has been received.</span>
+  <!-- Toast Notice (Hidden by default to prevent any layout bleed) -->
+  <div class="toast-notice" id="toast-feedback" style="display: none;" aria-live="polite">
+    <span id="toast-text"></span>
   </div>
 
   <!-- Interactive Scripts -->
-  <script src="assets/js/main.js?v=3.6"></script>
+  <script src="assets/js/main.js?v=3.7"></script>
 </body>
 </html>

@@ -214,9 +214,17 @@ document.addEventListener('DOMContentLoaded', () => {
   function showToast(msg = 'Thank you! Your inquiry has been received.') {
     if (!toast) return;
     if (toastMessage) toastMessage.innerText = msg;
-    toast.classList.add('show');
+    toast.style.display = 'flex';
+    requestAnimationFrame(() => {
+      toast.classList.add('show');
+    });
     setTimeout(() => {
       toast.classList.remove('show');
+      setTimeout(() => {
+        if (!toast.classList.contains('show')) {
+          toast.style.display = 'none';
+        }
+      }, 400);
     }, 4500);
   }
 

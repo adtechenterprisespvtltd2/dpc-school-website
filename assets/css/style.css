@@ -2568,29 +2568,37 @@ button, input, select, textarea {
   padding: 30px;
 }
 
-/* Toast Notification */
+/* Toast Notification - Completely Hidden When Inactive */
 .toast-notice {
   position: fixed;
-  bottom: 24px;
+  bottom: calc(90px + env(safe-area-inset-bottom, 0px));
   left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: var(--primary-dark);
+  transform: translateX(-50%) translateY(30px) scale(0.92);
+  background: linear-gradient(135deg, #091A36 0%, #050E1D 100%);
   color: #FFFFFF;
-  padding: 14px 24px;
+  padding: 12px 24px;
   border-radius: var(--radius-full);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--accent-gold);
-  z-index: 400;
-  font-size: 0.925rem;
-  font-weight: 600;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  border: 1.5px solid var(--accent-gold);
+  z-index: 99999;
+  font-size: 0.88rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: transform var(--transition-spring);
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+  max-width: 90vw;
+  text-align: center;
 }
 
 .toast-notice.show {
-  transform: translateX(-50%) translateY(0);
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateX(-50%) translateY(0) scale(1) !important;
 }
 
 /* ===================================================================
@@ -2985,56 +2993,78 @@ button, input, select, textarea {
   box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.35);
 }
 
-.dock-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
-  gap: 3px;
-  min-width: 50px;
+.dock-item,
+.dock-menu-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: none !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  padding: 4px 8px !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--transition-fast) !important;
+  gap: 3px !important;
+  min-width: 50px !important;
+  width: auto !important;
+  height: auto !important;
+  box-shadow: none !important;
 }
 
-.dock-item .dock-icon {
-  font-size: 1.15rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.dock-item .dock-icon,
+.dock-menu-btn .dock-icon {
+  font-size: 1.15rem !important;
+  line-height: 1 !important;
+  color: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.dock-item:active {
+.dock-item span,
+.dock-menu-btn span {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px !important;
+}
+
+.dock-item:active,
+.dock-menu-btn:active {
   transform: scale(0.92);
 }
 
 .dock-item.dock-wa {
-  color: #25D366;
+  color: #25D366 !important;
+}
+
+.dock-item.dock-wa span {
+  color: #25D366 !important;
 }
 
 .dock-item-highlight {
-  background: var(--accent-gold-gradient);
+  background: var(--accent-gold-gradient) !important;
   color: var(--primary-dark) !important;
-  padding: 6px 16px;
-  border-radius: var(--radius-full);
-  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.45);
-  transform: translateY(-4px);
+  padding: 6px 16px !important;
+  border-radius: var(--radius-full) !important;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.45) !important;
+  transform: translateY(-4px) !important;
+  min-width: 60px !important;
 }
 
 .dock-item-highlight .dock-icon {
-  font-size: 1rem;
+  font-size: 1rem !important;
+  color: var(--primary-dark) !important;
 }
 
 .dock-item-highlight span {
-  font-weight: 800;
+  font-weight: 800 !important;
+  color: var(--primary-dark) !important;
 }
 
 /* ===================================================================
