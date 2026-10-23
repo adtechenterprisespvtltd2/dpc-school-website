@@ -398,6 +398,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function getSchoolResponse(query) {
     const q = query.toLowerCase().trim();
 
+    if (q.includes('calendar') || q.includes('schedule') || q.includes('date') || q.includes('event') || q.includes('holiday') || q.includes('exam') || q.includes('fit india') || q.includes('vacation') || q.includes('annual function') || q.includes('youth day')) {
+      return "📅 <strong>D.P.C. Academic Calendar 2026–27 Highlights:</strong><br><br>• <strong>New Session Commences:</strong> April 1, 2026<br>• <strong>Periodic Assessment 1 (PA-1):</strong> July 15 – 23, 2026<br>• <strong>Mid-Term / Half-Yearly Exams:</strong> September 14 – 26, 2026<br>• <strong>Fit India Week:</strong> November 10 – 16, 2026 (Sports Day, Fitness Quizzes, Indigenous Games, Yoga & Pledge)<br>• <strong>PA-2 / Pre-Board 1:</strong> December 8 – 16, 2026<br>• <strong>National Youth Day:</strong> January 12, 2027<br>• <strong>Annual Function Day:</strong> January 27, 2027<br>• <strong>CBSE Board Exams:</strong> February 15, 2027 onwards<br><br>👉 <a href='#academic-calendar' style='color:#B8860B; font-weight:800; text-decoration:underline;'>Click here to view the complete interactive Month-by-Month Calendar</a>.";
+    }
+
     if (q.includes('admission') || q.includes('enquiry') || q.includes('apply') || q.includes('register') || q.includes('lkg') || q.includes('nursery') || q.includes('class 1') || q.includes('class 11') || q.includes('procedure') || q.includes('document')) {
       return "🎓 <strong>Admissions 2026-27 are Currently OPEN!</strong><br><br>• <strong>Classes:</strong> Nursery, LKG, UKG up to Class XII.<br>• <strong>Criteria:</strong> Merit basis with friendly age-appropriate interaction.<br>• <strong>Required Documents:</strong> Birth Certificate (for LKG/Nursery), Transfer Certificate (TC) & previous report card for higher grades.<br><br>👉 <a href='#' class='chat-link-admission' style='color:#B8860B; font-weight:800; text-decoration:underline;'>Click here to open the Online Admission Application Form</a>.";
     }
@@ -525,4 +529,65 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
     });
   });
+
+  // 13. Academic Calendar Interactive Filter & Term Switcher
+  const calTermBtns = document.querySelectorAll('.cal-term-btn');
+  const calCatPills = document.querySelectorAll('.cal-cat-pill');
+  const monthCards = document.querySelectorAll('.month-card');
+  const printCalBtn = document.getElementById('btn-print-calendar');
+
+  let activeTerm = 'all';
+  let activeCat = 'all';
+
+  function applyCalendarFilters() {
+    monthCards.forEach(card => {
+      const cardTerm = card.getAttribute('data-term');
+      const termMatches = (activeTerm === 'all' || cardTerm === activeTerm);
+
+      const eventsInCard = card.querySelectorAll('.event-item');
+      let visibleEventsCount = 0;
+
+      eventsInCard.forEach(event => {
+        const eventCat = event.getAttribute('data-cat');
+        const catMatches = (activeCat === 'all' || eventCat === activeCat);
+
+        if (termMatches && catMatches) {
+          event.style.display = 'flex';
+          visibleEventsCount++;
+        } else {
+          event.style.display = 'none';
+        }
+      });
+
+      if (termMatches && visibleEventsCount > 0) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  calTermBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      calTermBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeTerm = btn.getAttribute('data-term');
+      applyCalendarFilters();
+    });
+  });
+
+  calCatPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      calCatPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeCat = pill.getAttribute('data-cat');
+      applyCalendarFilters();
+    });
+  });
+
+  if (printCalBtn) {
+    printCalBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
 });

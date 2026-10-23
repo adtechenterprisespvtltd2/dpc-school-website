@@ -23,6 +23,9 @@ desktop.ini
 *.swp
 *.swo
 
+# Scratch scripts
+scratch/
+
 # Environment variables
 .env
 .env.local
