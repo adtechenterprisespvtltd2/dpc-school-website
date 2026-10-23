@@ -1,0 +1,26 @@
+[
+  {
+    "id": "NOT-01",
+    "tag": "ADMISSIONS 2026-27",
+    "text": "Online Registration Open for Nursery to Class XI. Scholarships Available for Meritorious Students.",
+    "active": true
+  },
+  {
+    "id": "NOT-02",
+    "tag": "CBSE AFFILIATION",
+    "text": "Affiliated to CBSE New Delhi, Affiliation No. 1031077, School Code: 51045.",
+    "active": true
+  },
+  {
+    "id": "NOT-03",
+    "tag": "ACADEMIC HONORS",
+    "text": "100% First Division Board Results in Class X & XII Examinations with State Distinctions.",
+    "active": true
+  },
+  {
+    "id": "NOT-04",
+    "tag": "CAMPUS TOUR",
+    "text": "Interactive open-house campus visits every Saturday 10:00 AM – 2:00 PM.",
+    "active": true
+  }
+]

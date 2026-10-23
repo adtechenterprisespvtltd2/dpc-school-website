@@ -1,0 +1,16 @@
+{
+  "name": "dpc-school-website",
+  "version": "1.0.0",
+  "description": "Official Web Platform & Administrative Management Portal for D.P.C. Role Model Excellence School, Seoni",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "author": "DPC Role Model School IT Cell",
+  "license": "ISC"
+}

@@ -1281,15 +1281,18 @@ button, input, select, textarea {
    5. REAL CAMPUS SPOTLIGHT (INTERACTIVE HOTSPOTS)
    =================================================================== */
 .campus-spotlight-section {
-  background: var(--bg-surface);
+  background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.16) 0%, transparent 45%),
+              radial-gradient(circle at 10% 85%, rgba(245, 158, 11, 0.1) 0%, transparent 45%),
+              linear-gradient(180deg, #FAF8F5 0%, #FFFDF9 50%, #FAF5ED 100%);
+  position: relative;
 }
 
 .campus-viewer-box {
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border-light);
+  box-shadow: 0 25px 60px rgba(9, 26, 54, 0.14), 0 0 35px rgba(212, 175, 55, 0.18);
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
 }
 
 .campus-viewer-image {
@@ -1309,8 +1312,8 @@ button, input, select, textarea {
   color: #FFFFFF;
   padding: 24px 28px;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
 }
 
 .campus-overlay-card h3 {
@@ -1334,14 +1337,21 @@ button, input, select, textarea {
 }
 
 .hotspot-tag {
-  background: rgba(255, 255, 255, 0.15);
-  padding: 4px 12px;
+  background: rgba(7, 21, 43, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 5px 14px;
   border-radius: var(--radius-full);
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #FFDF00;
-  border: 1px solid rgba(255, 215, 0, 0.3);
+  border: 1px solid rgba(255, 223, 0, 0.45);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
+
+.hotspot-tag:nth-child(1) { border-color: rgba(16, 185, 129, 0.5); color: #34D399; }
+.hotspot-tag:nth-child(2) { border-color: rgba(239, 68, 68, 0.5); color: #F87171; }
+.hotspot-tag:nth-child(3) { border-color: rgba(56, 189, 248, 0.5); color: #38BDF8; }
+.hotspot-tag:nth-child(4) { border-color: rgba(251, 191, 36, 0.5); color: #FBBF24; }
 
 @media (max-width: 768px) {
   .campus-viewer-image {
@@ -1359,7 +1369,10 @@ button, input, select, textarea {
    6. ACADEMIC EXCELLENCE (INTERACTIVE STAGE TABS)
    =================================================================== */
 .academics-section {
-  background: var(--bg-page);
+  background: radial-gradient(circle at 15% 20%, rgba(5, 150, 105, 0.08) 0%, transparent 45%),
+              radial-gradient(circle at 85% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 45%),
+              linear-gradient(180deg, #FAF5ED 0%, #F5EFEB 100%);
+  position: relative;
 }
 
 .stage-tab-controls {
@@ -1373,7 +1386,7 @@ button, input, select, textarea {
 
 .stage-tab-btn {
   background: #FFFFFF;
-  border: 1px solid var(--border-light);
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
   padding: 12px 26px;
   border-radius: var(--radius-full);
   font-size: 0.95rem;
@@ -1381,20 +1394,35 @@ button, input, select, textarea {
   color: var(--text-dark);
   cursor: pointer;
   transition: all var(--transition-smooth);
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
 .stage-tab-btn:hover {
-  border-color: var(--primary-blue);
-  color: var(--primary-blue);
+  border-color: var(--accent-gold);
+  color: #8C6A1A;
   transform: translateY(-2px);
 }
 
 .stage-tab-btn.active {
-  background: var(--primary-navy);
-  color: #FFFFFF;
-  border-color: var(--primary-navy);
-  box-shadow: 0 8px 24px rgba(12, 30, 60, 0.2);
+  color: #FFFFFF !important;
+}
+
+.stage-tab-btn[data-stage="primary"].active {
+  background: linear-gradient(135deg, #059669 0%, #0D9488 100%) !important;
+  border-color: #059669 !important;
+  box-shadow: 0 8px 24px rgba(5, 150, 105, 0.35) !important;
+}
+
+.stage-tab-btn[data-stage="middle"].active {
+  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
+  border-color: #4F46E5 !important;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35) !important;
+}
+
+.stage-tab-btn[data-stage="senior"].active {
+  background: linear-gradient(135deg, #D97706 0%, #DC2626 100%) !important;
+  border-color: #DC2626 !important;
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.35) !important;
 }
 
 .stage-content-panel {
@@ -1416,11 +1444,10 @@ button, input, select, textarea {
   grid-template-columns: 1fr 1fr;
   gap: 36px;
   align-items: center;
-  background: #FFFFFF;
+  background: linear-gradient(145deg, #FFFFFF 0%, #FCFAF7 100%);
   padding: 40px;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-light);
+  box-shadow: 0 16px 45px rgba(9, 26, 54, 0.08), 0 0 25px rgba(212, 175, 55, 0.15);
 }
 
 @media (max-width: 900px) {
@@ -1494,7 +1521,11 @@ button, input, select, textarea {
    7. FACILITIES SHOWCASE (INTERACTIVE FILTER GRID)
    =================================================================== */
 .facilities-section {
-  background: #FFFFFF;
+  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
+              radial-gradient(circle at 10% 80%, rgba(5, 150, 105, 0.06) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(217, 119, 6, 0.06) 0%, transparent 40%),
+              linear-gradient(180deg, #FAF8F4 0%, #FFFDF9 50%, #FAF5ED 100%);
+  position: relative;
 }
 
 .facility-filter-bar {
@@ -1507,25 +1538,30 @@ button, input, select, textarea {
 }
 
 .filter-pill {
-  padding: 8px 20px;
+  padding: 9px 22px;
   border-radius: var(--radius-full);
   font-size: 0.88rem;
-  font-weight: 600;
-  background: var(--bg-subtle);
+  font-weight: 700;
+  background: #FFFFFF;
   color: var(--text-muted);
-  border: 1px solid transparent;
+  border: 1.5px solid rgba(212, 175, 55, 0.3);
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition: all var(--transition-fast);
 }
 
 .filter-pill:hover {
-  background: var(--bg-muted);
-  color: var(--text-dark);
+  background: var(--bg-subtle);
+  border-color: var(--accent-gold);
+  color: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
 .filter-pill.active {
-  background: var(--primary-blue);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #1E3A8A 0%, #0F284E 100%);
+  color: #FFDF00;
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 6px 20px rgba(15, 40, 78, 0.3);
 }
 
 .facilities-grid {
@@ -1547,20 +1583,64 @@ button, input, select, textarea {
 }
 
 .facility-card {
-  background: #FFFFFF;
+  background: linear-gradient(145deg, #FFFFFF 0%, #FDFBF8 100%);
   border-radius: var(--radius-md);
   overflow: hidden;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
+  border: 1.5px solid rgba(212, 175, 55, 0.28);
+  box-shadow: 0 10px 28px rgba(9, 26, 54, 0.06);
   transition: all var(--transition-smooth);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
-.facility-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-lg);
-  border-color: rgba(22, 59, 114, 0.25);
+/* Individual Jewel Tone Accents */
+.facility-card:nth-child(1) {
+  border-top: 4px solid #2563EB;
+}
+.facility-card:nth-child(1):hover {
+  border-color: #2563EB !important;
+  box-shadow: 0 20px 48px rgba(37, 99, 235, 0.18), 0 0 24px rgba(37, 99, 235, 0.25) !important;
+}
+
+.facility-card:nth-child(2) {
+  border-top: 4px solid #059669;
+}
+.facility-card:nth-child(2):hover {
+  border-color: #059669 !important;
+  box-shadow: 0 20px 48px rgba(5, 150, 105, 0.18), 0 0 24px rgba(5, 150, 105, 0.25) !important;
+}
+
+.facility-card:nth-child(3) {
+  border-top: 4px solid #7C3AED;
+}
+.facility-card:nth-child(3):hover {
+  border-color: #7C3AED !important;
+  box-shadow: 0 20px 48px rgba(124, 58, 237, 0.18), 0 0 24px rgba(124, 58, 237, 0.25) !important;
+}
+
+.facility-card:nth-child(4) {
+  border-top: 4px solid #D97706;
+}
+.facility-card:nth-child(4):hover {
+  border-color: #D97706 !important;
+  box-shadow: 0 20px 48px rgba(217, 119, 6, 0.18), 0 0 24px rgba(217, 119, 6, 0.25) !important;
+}
+
+.facility-card:nth-child(5) {
+  border-top: 4px solid #EA580C;
+}
+.facility-card:nth-child(5):hover {
+  border-color: #EA580C !important;
+  box-shadow: 0 20px 48px rgba(234, 88, 12, 0.18), 0 0 24px rgba(234, 88, 12, 0.25) !important;
+}
+
+.facility-card:nth-child(6) {
+  border-top: 4px solid #F59E0B;
+}
+.facility-card:nth-child(6):hover {
+  border-color: #F59E0B !important;
+  box-shadow: 0 20px 48px rgba(245, 158, 11, 0.2), 0 0 24px rgba(245, 158, 11, 0.25) !important;
 }
 
 .facility-card-media {
@@ -1584,7 +1664,7 @@ button, input, select, textarea {
   position: absolute;
   top: 14px;
   left: 14px;
-  background: rgba(7, 21, 43, 0.8);
+  background: rgba(7, 21, 43, 0.85);
   backdrop-filter: blur(8px);
   color: #FFFFFF;
   padding: 4px 12px;
@@ -1593,7 +1673,7 @@ button, input, select, textarea {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.4);
 }
 
 .facility-card-body {
@@ -1622,10 +1702,10 @@ button, input, select, textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
   padding-top: 14px;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--primary-blue);
 }
 
@@ -2073,7 +2153,10 @@ button, input, select, textarea {
    12. PARENT & STUDENT TESTIMONIALS
    =================================================================== */
 .testimonials-section {
-  background: var(--bg-page);
+  background: radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 15% 20%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+              linear-gradient(180deg, #F8F5EE 0%, #FFFDF9 50%, #FAF5ED 100%);
+  position: relative;
 }
 
 .testimonials-grid {
@@ -2089,15 +2172,22 @@ button, input, select, textarea {
 }
 
 .testimonial-card {
-  background: #FFFFFF;
+  background: linear-gradient(145deg, #FFFFFF 0%, #FCFAF6 100%);
   border-radius: var(--radius-md);
-  padding: 32px 28px;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
+  padding: 34px 28px;
+  border: 1.5px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 10px 30px rgba(9, 26, 54, 0.06);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  transition: all var(--transition-smooth);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212, 175, 55, 0.6) !important;
+  box-shadow: 0 20px 48px rgba(9, 26, 54, 0.12), 0 0 25px rgba(212, 175, 55, 0.2) !important;
 }
 
 .stars-rating {
@@ -2105,11 +2195,13 @@ button, input, select, textarea {
   display: flex;
   gap: 4px;
   margin-bottom: 16px;
+  font-size: 1.15rem;
+  text-shadow: 0 0 12px rgba(245, 158, 11, 0.45);
 }
 
 .testimonial-quote {
-  font-size: 0.95rem;
-  line-height: 1.65;
+  font-size: 0.98rem;
+  line-height: 1.7;
   color: var(--text-body);
   margin-bottom: 24px;
   font-style: italic;
@@ -2122,15 +2214,28 @@ button, input, select, textarea {
 }
 
 .author-avatar {
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: var(--accent-gold-soft);
-  color: #8C6A1A;
+  color: #FFFFFF;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.testimonial-card:nth-child(1) .author-avatar {
+  background: linear-gradient(135deg, #EA580C 0%, #F59E0B 100%);
+}
+
+.testimonial-card:nth-child(2) .author-avatar {
+  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+}
+
+.testimonial-card:nth-child(3) .author-avatar {
+  background: linear-gradient(135deg, #1D4ED8 0%, #3B82F6 100%);
 }
 
 .author-meta h5 {
@@ -2148,7 +2253,9 @@ button, input, select, textarea {
    13. CONTACT & LOCATION SECTION
    =================================================================== */
 .contact-section {
-  background: #FFFFFF;
+  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+              linear-gradient(180deg, #FAF5ED 0%, #F5EFEB 100%);
+  position: relative;
 }
 
 .contact-grid {
@@ -2164,10 +2271,11 @@ button, input, select, textarea {
 }
 
 .contact-card-box {
-  background: var(--bg-page);
-  padding: 36px;
+  background: linear-gradient(145deg, #FFFFFF 0%, #FCFAF7 100%);
+  padding: 38px;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-light);
+  border: 1.5px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 12px 36px rgba(9, 26, 54, 0.06);
 }
 
 .contact-item-row {
@@ -2178,19 +2286,37 @@ button, input, select, textarea {
 }
 
 .contact-icon-box {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: var(--radius-sm);
-  background: rgba(22, 59, 114, 0.08);
-  color: var(--primary-blue);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.contact-item-row:nth-child(2) .contact-icon-box {
+  background: rgba(225, 29, 72, 0.12);
+  color: #E11D48;
+  border: 1px solid rgba(225, 29, 72, 0.25);
+}
+
+.contact-item-row:nth-child(3) .contact-icon-box {
+  background: rgba(5, 150, 105, 0.12);
+  color: #059669;
+  border: 1px solid rgba(5, 150, 105, 0.25);
+}
+
+.contact-item-row:nth-child(4) .contact-icon-box {
+  background: rgba(212, 175, 55, 0.18);
+  color: #B8860B;
+  border: 1px solid rgba(212, 175, 55, 0.35);
 }
 
 .contact-item-row h4 {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-dark);
   margin-bottom: 4px;
@@ -2206,7 +2332,7 @@ button, input, select, textarea {
   width: 100%;
   height: 280px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-light);
+  border: 1.5px solid rgba(212, 175, 55, 0.3);
   overflow: hidden;
   margin-top: 24px;
 }
@@ -2219,11 +2345,11 @@ button, input, select, textarea {
 
 /* Contact Form */
 .inquiry-form-card {
-  background: #FFFFFF;
-  border: 1px solid var(--border-light);
+  background: linear-gradient(145deg, #FFFFFF 0%, #FCFAF7 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.3);
   border-radius: var(--radius-lg);
-  padding: 36px;
-  box-shadow: var(--shadow-md);
+  padding: 38px;
+  box-shadow: 0 16px 45px rgba(9, 26, 54, 0.08);
 }
 
 /* ===================================================================

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "INQ-101",
+    "name": "Pradeep Chourasia",
+    "phone": "+91 93012 34567",
+    "email": "pradeep.c@gmail.com",
+    "seekingClass": "Class 1-5",
+    "message": "We recently shifted to Seoni near Dreamland City. Wanted to know bus route coverage and fee discount for sibling.",
+    "date": "2026-10-22T14:30:00Z",
+    "status": "Responded"
+  },
+  {
+    "id": "INQ-102",
+    "name": "Kavita Tiwari",
+    "phone": "+91 94248 11223",
+    "email": "tiwari.kavita@yahoo.in",
+    "seekingClass": "Class 11-12",
+    "message": "Do you offer biology NEET specialized coaching with daily practice test series?",
+    "date": "2026-10-23T09:15:00Z",
+    "status": "New"
+  }
+]

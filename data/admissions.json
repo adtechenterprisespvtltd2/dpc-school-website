@@ -1,0 +1,74 @@
+[
+  {
+    "id": "DPC-2026-001",
+    "studentName": "Aarav Sharma",
+    "parentName": "Vikram Sharma",
+    "mobile": "+91 94251 88342",
+    "email": "vikram.sharma@gmail.com",
+    "grade": "Class 1",
+    "transport": "Seoni City / Dorlichhatarpur Zone",
+    "status": "Approved",
+    "date": "2026-10-21",
+    "notes": "Birth certificate verified. Interaction completed with PRT head. Admission confirmed."
+  },
+  {
+    "id": "DPC-2026-002",
+    "studentName": "Ananya Patel",
+    "parentName": "Rajesh Kumar Patel",
+    "mobile": "+91 98261 44520",
+    "email": "rajesh.patel@yahoo.com",
+    "grade": "Class 6",
+    "transport": "Katangi Road & Outskirts Zone",
+    "status": "Under Review",
+    "date": "2026-10-22",
+    "notes": "Transfer Certificate from previous CBSE school requested. Science aptitude test pending."
+  },
+  {
+    "id": "DPC-2026-003",
+    "studentName": "Rohan Deshmukh",
+    "parentName": "Anand Deshmukh",
+    "mobile": "+91 97552 11984",
+    "email": "anand.deshmukh@gmail.com",
+    "grade": "Class 11 (Science PCM)",
+    "transport": "Own Conveyance",
+    "status": "Approved",
+    "date": "2026-10-22",
+    "notes": "94.2% in Class X Board. IIT-JEE integrated foundation coaching batch opted."
+  },
+  {
+    "id": "DPC-2026-004",
+    "studentName": "Ishita Baghel",
+    "parentName": "Mahendra Baghel",
+    "mobile": "+91 94798 12345",
+    "email": "mbaghel@rediffmail.com",
+    "grade": "Nursery",
+    "transport": "Seoni City / Dorlichhatarpur Zone",
+    "status": "Pending Followup",
+    "date": "2026-10-23",
+    "notes": "Parent requested campus tour on Saturday 11:00 AM."
+  },
+  {
+    "id": "DPC-2026-005",
+    "studentName": "Devendra Soni",
+    "parentName": "Sunil Soni",
+    "mobile": "+91 88171 99201",
+    "email": "sunil.soni@gmail.com",
+    "grade": "Class 9",
+    "transport": "Katangi Road & Outskirts Zone",
+    "status": "Under Review",
+    "date": "2026-10-23",
+    "notes": "Aadhar card and report card submitted online."
+  },
+  {
+    "id": "DPC-2026-006",
+    "studentName": "Kunal Verma",
+    "parentName": "Sanjay Verma",
+    "mobile": "+91 94251 77665",
+    "email": "",
+    "grade": "Class 11 Commerce",
+    "transport": "Own Conveyance",
+    "status": "Pending Followup",
+    "date": "2026-10-23",
+    "notes": "Online portal application received."
+  }
+]
