@@ -537,6 +537,184 @@
       border-radius: 4px;
       white-space: nowrap;
     }
+
+    /* Database Engine Inspector Card */
+    .db-inspector-card {
+      background: linear-gradient(135deg, #091931 0%, #0F2A4A 100%);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      color: #FFFFFF;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .db-inspector-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 18px;
+    }
+
+    .db-inspector-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .db-pulse-indicator {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: dbPulse 2s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes dbPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    .db-inspector-title h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .db-inspector-title p {
+      font-size: 0.82rem;
+      color: #94A3B8;
+      margin: 0;
+    }
+
+    .db-inspector-title code {
+      background: rgba(0, 0, 0, 0.35);
+      color: #FFDF00;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.8rem;
+    }
+
+    .db-inspector-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-db-refresh {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      padding: 7px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-db-refresh:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-db-download {
+      background: var(--accent-gold-gradient);
+      color: #061122;
+      border: none;
+      padding: 7px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-db-download:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.45);
+    }
+
+    .db-tables-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .db-tables-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .db-tables-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .db-table-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .db-table-pill:hover {
+      border-color: rgba(212, 175, 55, 0.5);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .db-table-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #E2E8F0;
+      font-family: monospace;
+    }
+
+    .db-table-count {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
   </style>
 </head>
 <body>
@@ -625,6 +803,35 @@
         </div>
         <div class="metric-card-number" id="metric-inquiries">2</div>
         <div class="metric-card-sub">Website & Helpline Queries</div>
+      </div>
+    </div>
+
+    <!-- Live SQLite 3 Relational Database Engine Status -->
+    <div class="db-inspector-card">
+      <div class="db-inspector-header">
+        <div class="db-inspector-title">
+          <div class="db-pulse-indicator" title="SQLite Engine Active & Healthy"></div>
+          <div>
+            <h4>
+              <span>🗄️ SQLite 3 Embedded Relational Engine</span>
+              <span style="font-size: 0.72rem; background: rgba(212, 175, 55, 0.2); color: #FFDF00; border: 1px solid rgba(212, 175, 55, 0.4); padding: 2px 8px; border-radius: 20px;">WAL Mode Active</span>
+            </h4>
+            <p>Database File: <code>data/dpc_school.db</code> • Size: <strong id="db-size-label" style="color: #38BDF8;">8.00 KB</strong> • ACID Compliant Transactional Ledger</p>
+          </div>
+        </div>
+        <div class="db-inspector-actions">
+          <button class="btn-db-refresh" id="btn-db-refresh" title="Re-query SQLite engine status">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            Sync Check
+          </button>
+          <a href="/api/database/download" class="btn-db-download" download="dpc_school.db" title="Download raw SQLite database file for DB Browser / DBeaver">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Download SQLite .db File
+          </a>
+        </div>
+      </div>
+      <div class="db-tables-grid" id="db-tables-container">
+        <!-- Live Table Badges -->
       </div>
     </div>
 
@@ -1026,8 +1233,55 @@
       document.body.removeChild(link);
     });
 
+    // Database Engine Status & Inspection
+    async function fetchDatabaseInfo() {
+      try {
+        const res = await fetch('/api/database/info');
+        const json = await res.json();
+        if (json.success && json.database) {
+          const db = json.database;
+          const sizeEl = document.getElementById('db-size-label');
+          if (sizeEl) sizeEl.innerText = `${db.sizeKB} KB`;
+
+          const container = document.getElementById('db-tables-container');
+          if (container && db.counts) {
+            container.innerHTML = '';
+            const friendlyNames = {
+              admissions: 'admissions (Student Ledger)',
+              inquiries: 'inquiries (Parent Queries)',
+              notices: 'notices (Live Announcements)',
+              admin_users: 'admin_users (Staff Access)'
+            };
+
+            for (const [tbl, count] of Object.entries(db.counts)) {
+              if (tbl === 'test') continue;
+              const pill = document.createElement('div');
+              pill.className = 'db-table-pill';
+              pill.innerHTML = `
+                <span class="db-table-name">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                  ${friendlyNames[tbl] || tbl}
+                </span>
+                <span class="db-table-count">${count} rows</span>
+              `;
+              container.appendChild(pill);
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Database info error:', err);
+      }
+    }
+
+    document.getElementById('btn-db-refresh')?.addEventListener('click', () => {
+      fetchDatabaseInfo();
+      fetchStats();
+      fetchAdmissions();
+    });
+
     // Init
     document.addEventListener('DOMContentLoaded', () => {
+      fetchDatabaseInfo();
       fetchStats();
       fetchAdmissions();
       fetchNotices();

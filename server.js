@@ -16,40 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Paths to database files
-const DATA_DIR = path.join(__dirname, 'data');
-const ADMISSIONS_FILE = path.join(DATA_DIR, 'admissions.json');
-const INQUIRIES_FILE = path.join(DATA_DIR, 'inquiries.json');
-const NOTICES_FILE = path.join(DATA_DIR, 'notices.json');
-
-// Ensure data folder and files exist
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-}
-
-function readJSON(filePath, defaultData = []) {
-  try {
-    if (!fs.existsSync(filePath)) {
-      fs.writeFileSync(filePath, JSON.stringify(defaultData, null, 2), 'utf-8');
-      return defaultData;
-    }
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(raw);
-  } catch (err) {
-    console.error(`Error reading ${filePath}:`, err);
-    return defaultData;
-  }
-}
-
-function writeJSON(filePath, data) {
-  try {
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
-    return true;
-  } catch (err) {
-    console.error(`Error writing ${filePath}:`, err);
-    return false;
-  }
-}
+const dbService = require('./db');
 
 // -----------------------------------------------------------------------------
 // REST API ENDPOINTS
@@ -61,186 +28,162 @@ app.get('/api/health', (req, res) => {
     status: 'online',
     school: 'D.P.C. Role Model Excellence School, Seoni',
     affiliation: 'CBSE New Delhi No. 1031077',
+    databaseEngine: 'SQLite 3 (ACID, WAL mode)',
     timestamp: new Date().toISOString()
   });
 });
 
-// 2. Dashboard Aggregate Statistics
-app.get('/api/stats', (req, res) => {
-  const admissions = readJSON(ADMISSIONS_FILE, []);
-  const inquiries = readJSON(INQUIRIES_FILE, []);
-
-  const totalAdmissions = admissions.length;
-  const approvedCount = admissions.filter(a => a.status === 'Approved' || a.status === 'Enrolled').length;
-  const pendingCount = admissions.filter(a => a.status === 'Pending Followup' || a.status === 'Under Review').length;
-  const totalInquiries = inquiries.length;
-
-  // Grade breakdown
-  const gradeDistribution = {};
-  admissions.forEach(a => {
-    const g = a.grade || 'Other';
-    gradeDistribution[g] = (gradeDistribution[g] || 0) + 1;
-  });
-
-  res.json({
-    totalAdmissions,
-    approvedCount,
-    pendingCount,
-    totalInquiries,
-    gradeDistribution,
-    serverUptime: process.uptime()
-  });
+// 2. Database Inspection & Raw Backup Endpoints
+app.get('/api/database/info', (req, res) => {
+  try {
+    const info = dbService.getDatabaseInfo();
+    res.json({ success: true, database: info });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
-// 3. Admissions CRUD
+app.get('/api/database/download', (req, res) => {
+  try {
+    if (!fs.existsSync(dbService.DB_PATH)) {
+      return res.status(404).send('Database file not found');
+    }
+    res.download(dbService.DB_PATH, 'dpc_school_database.db');
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// 3. Dashboard Aggregate Statistics
+app.get('/api/stats', (req, res) => {
+  try {
+    const stats = dbService.getStats();
+    res.json({
+      ...stats,
+      serverUptime: process.uptime()
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 4. Admissions CRUD (SQLite Relational Ledger)
 app.get('/api/admissions', (req, res) => {
-  const admissions = readJSON(ADMISSIONS_FILE, []);
-  const { status, grade, search } = req.query;
-
-  let filtered = [...admissions];
-
-  if (status && status !== 'all') {
-    filtered = filtered.filter(a => a.status.toLowerCase() === status.toLowerCase());
+  try {
+    const { status, grade, search } = req.query;
+    const data = dbService.getAdmissions({ status, grade, search });
+    res.json({ success: true, count: data.length, data });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
-
-  if (grade && grade !== 'all') {
-    filtered = filtered.filter(a => a.grade.toLowerCase().includes(grade.toLowerCase()));
-  }
-
-  if (search) {
-    const q = search.toLowerCase();
-    filtered = filtered.filter(a => 
-      (a.studentName && a.studentName.toLowerCase().includes(q)) ||
-      (a.parentName && a.parentName.toLowerCase().includes(q)) ||
-      (a.mobile && a.mobile.includes(q)) ||
-      (a.id && a.id.toLowerCase().includes(q))
-    );
-  }
-
-  // Reverse sort by date/ID
-  res.json({ success: true, count: filtered.length, data: filtered.reverse() });
 });
 
 app.post('/api/admissions', (req, res) => {
-  const { studentName, parentName, mobile, email, grade, transport, notes } = req.body;
+  try {
+    const { studentName, parentName, mobile, email, grade, transport, notes } = req.body;
 
-  if (!studentName || !parentName || !mobile) {
-    return res.status(400).json({ success: false, message: 'Student Name, Parent Name, and Mobile Number are required.' });
+    if (!studentName || !parentName || !mobile) {
+      return res.status(400).json({ success: false, message: 'Student Name, Parent Name, and Mobile Number are required.' });
+    }
+
+    const newAdmission = dbService.insertAdmission({
+      studentName,
+      parentName,
+      mobile,
+      email,
+      grade,
+      transport,
+      notes
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Application registered successfully in SQLite database.',
+      data: newAdmission
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
-
-  const admissions = readJSON(ADMISSIONS_FILE, []);
-  const nextNum = (admissions.length + 1).toString().padStart(3, '0');
-  const newAdmission = {
-    id: `DPC-2026-${nextNum}`,
-    studentName: studentName.trim(),
-    parentName: parentName.trim(),
-    mobile: mobile.trim(),
-    email: (email || '').trim(),
-    grade: grade || 'Unspecified Grade',
-    transport: transport || 'Own Conveyance',
-    status: 'Pending Followup',
-    date: new Date().toISOString().split('T')[0],
-    notes: notes || 'Online portal application received.'
-  };
-
-  admissions.push(newAdmission);
-  writeJSON(ADMISSIONS_FILE, admissions);
-
-  res.status(201).json({
-    success: true,
-    message: 'Application registered successfully.',
-    data: newAdmission
-  });
 });
 
 app.patch('/api/admissions/:id', (req, res) => {
-  const { id } = req.params;
-  const { status, notes } = req.body;
+  try {
+    const { id } = req.params;
+    const { status, notes } = req.body;
 
-  const admissions = readJSON(ADMISSIONS_FILE, []);
-  const itemIndex = admissions.findIndex(a => a.id === id);
+    const updated = dbService.updateAdmission(id, { status, notes });
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'Application record not found in database.' });
+    }
 
-  if (itemIndex === -1) {
-    return res.status(404).json({ success: false, message: 'Application record not found.' });
+    res.json({ success: true, message: 'Application status updated in database.', data: updated });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
-
-  if (status) admissions[itemIndex].status = status;
-  if (notes !== undefined) admissions[itemIndex].notes = notes;
-
-  writeJSON(ADMISSIONS_FILE, admissions);
-  res.json({ success: true, message: 'Application status updated.', data: admissions[itemIndex] });
 });
 
 app.delete('/api/admissions/:id', (req, res) => {
-  const { id } = req.params;
-  let admissions = readJSON(ADMISSIONS_FILE, []);
-  const beforeLength = admissions.length;
+  try {
+    const { id } = req.params;
+    const success = dbService.deleteAdmission(id);
 
-  admissions = admissions.filter(a => a.id !== id);
+    if (!success) {
+      return res.status(404).json({ success: false, message: 'Record not found in database.' });
+    }
 
-  if (admissions.length === beforeLength) {
-    return res.status(404).json({ success: false, message: 'Record not found.' });
+    res.json({ success: true, message: 'Record removed successfully from SQLite database.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
-
-  writeJSON(ADMISSIONS_FILE, admissions);
-  res.json({ success: true, message: 'Record removed successfully.' });
 });
 
-// 4. Contact Inquiries CRUD
+// 5. Contact Inquiries CRUD (SQLite)
 app.get('/api/inquiries', (req, res) => {
-  const inquiries = readJSON(INQUIRIES_FILE, []);
-  res.json({ success: true, count: inquiries.length, data: inquiries.reverse() });
+  try {
+    const data = dbService.getInquiries();
+    res.json({ success: true, count: data.length, data });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/api/inquiries', (req, res) => {
-  const { name, phone, email, seekingClass, message } = req.body;
+  try {
+    const { name, phone, email, seekingClass, message } = req.body;
 
-  if (!name || !phone) {
-    return res.status(400).json({ success: false, message: 'Name and Phone number are required.' });
+    if (!name || !phone) {
+      return res.status(400).json({ success: false, message: 'Name and Phone number are required.' });
+    }
+
+    const newInq = dbService.insertInquiry({ name, phone, email, seekingClass, message });
+    res.status(201).json({ success: true, message: 'Inquiry saved successfully to SQLite database.', data: newInq });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
-
-  const inquiries = readJSON(INQUIRIES_FILE, []);
-  const newInq = {
-    id: `INQ-${Date.now().toString().slice(-4)}`,
-    name: name.trim(),
-    phone: phone.trim(),
-    email: (email || '').trim(),
-    seekingClass: seekingClass || 'General Inquiry',
-    message: message || '',
-    date: new Date().toISOString(),
-    status: 'New'
-  };
-
-  inquiries.push(newInq);
-  writeJSON(INQUIRIES_FILE, inquiries);
-
-  res.status(201).json({ success: true, message: 'Inquiry submitted successfully.', data: newInq });
 });
 
-// 5. Notices CRUD (Dynamic Notice Board / Ticker)
+// 6. Notices CRUD (Dynamic Notice Board / Ticker in SQLite)
 app.get('/api/notices', (req, res) => {
-  const notices = readJSON(NOTICES_FILE, []);
-  res.json({ success: true, data: notices });
+  try {
+    const data = dbService.getNotices();
+    res.json({ success: true, data });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/api/notices', (req, res) => {
-  const { tag, text } = req.body;
-  if (!tag || !text) {
-    return res.status(400).json({ success: false, message: 'Notice tag and text are required.' });
+  try {
+    const { tag, text } = req.body;
+    if (!tag || !text) {
+      return res.status(400).json({ success: false, message: 'Notice tag and text are required.' });
+    }
+
+    const newNotice = dbService.insertNotice({ tag, text });
+    res.status(201).json({ success: true, message: 'Notice added to SQLite database and live ticker.', data: newNotice });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
-
-  const notices = readJSON(NOTICES_FILE, []);
-  const newNotice = {
-    id: `NOT-${Date.now().toString().slice(-4)}`,
-    tag: tag.trim().toUpperCase(),
-    text: text.trim(),
-    active: true
-  };
-
-  notices.push(newNotice);
-  writeJSON(NOTICES_FILE, notices);
-
-  res.status(201).json({ success: true, message: 'Notice added to live ticker.', data: newNotice });
 });
 
 // -----------------------------------------------------------------------------
@@ -261,8 +204,10 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`==================================================================`);
   console.log(`D.P.C. ROLE MODEL EXCELLENCE SCHOOL PLATFORM RUNNING`);
-  console.log(`Local Access: http://localhost:${PORT}`);
-  console.log(`Admin Portal: http://localhost:${PORT}/admin`);
-  console.log(`API Base:     http://localhost:${PORT}/api/health`);
+  console.log(`Relational Database: SQLite 3 (${dbService.DB_PATH})`);
+  console.log(`Local Access:        http://localhost:${PORT}`);
+  console.log(`Admin Portal:        http://localhost:${PORT}/admin`);
+  console.log(`API Health:          http://localhost:${PORT}/api/health`);
+  console.log(`Database Meta:       http://localhost:${PORT}/api/database/info`);
   console.log(`==================================================================`);
 });
