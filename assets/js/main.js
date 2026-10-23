@@ -245,4 +245,147 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ===================================================================
+  // 10. DPC AI ASSISTANT CHATBOT ENGINE
+  // ===================================================================
+  const aiToggle = document.getElementById('dpc-ai-toggle');
+  const aiWindow = document.getElementById('dpc-ai-window');
+  const aiClose = document.getElementById('ai-chat-close');
+  const aiMessages = document.getElementById('ai-chat-messages');
+  const aiForm = document.getElementById('ai-chat-form');
+  const aiInput = document.getElementById('ai-chat-input');
+  const aiChips = document.querySelectorAll('.ai-chip');
+
+  let hasGreeted = false;
+
+  function toggleAiChat() {
+    if (!aiWindow) return;
+    const isActive = aiWindow.classList.toggle('active');
+    if (isActive && !hasGreeted) {
+      hasGreeted = true;
+      botReply("👋 **Hello! Welcome to D.P.C. Role Model Excellence School.**<br>I am your 24/7 AI Campus Assistant. Ask me anything about admissions, fee structures, bus routes, CBSE accreditations, or leadership details!");
+    }
+    if (isActive && aiInput) {
+      setTimeout(() => aiInput.focus(), 300);
+    }
+  }
+
+  if (aiToggle) aiToggle.addEventListener('click', toggleAiChat);
+  if (aiClose) aiClose.addEventListener('click', () => aiWindow.classList.remove('active'));
+
+  function appendMessage(text, sender = 'bot') {
+    if (!aiMessages) return;
+    const bubble = document.createElement('div');
+    bubble.className = `ai-bubble ${sender}`;
+    bubble.innerHTML = text;
+    aiMessages.appendChild(bubble);
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+
+    // Attach click listener if message contains admission link
+    const admissionLinks = bubble.querySelectorAll('.chat-link-admission');
+    admissionLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+  }
+
+  function showTypingIndicator() {
+    const typing = document.createElement('div');
+    typing.className = 'ai-bubble bot typing-indicator';
+    typing.id = 'ai-typing-temp';
+    typing.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+    aiMessages.appendChild(typing);
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+  }
+
+  function removeTypingIndicator() {
+    const el = document.getElementById('ai-typing-temp');
+    if (el) el.remove();
+  }
+
+  function botReply(text, delay = 500) {
+    showTypingIndicator();
+    setTimeout(() => {
+      removeTypingIndicator();
+      appendMessage(text, 'bot');
+    }, delay);
+  }
+
+  // School Knowledge Retrieval
+  function getSchoolResponse(query) {
+    const q = query.toLowerCase().trim();
+
+    if (q.includes('admission') || q.includes('enquiry') || q.includes('apply') || q.includes('register') || q.includes('lkg') || q.includes('nursery') || q.includes('class 1') || q.includes('class 11') || q.includes('procedure') || q.includes('document')) {
+      return "🎓 <strong>Admissions 2026-27 are Currently OPEN!</strong><br><br>• <strong>Classes:</strong> Nursery, LKG, UKG up to Class XII.<br>• <strong>Criteria:</strong> Merit basis with friendly age-appropriate interaction.<br>• <strong>Required Documents:</strong> Birth Certificate (for LKG/Nursery), Transfer Certificate (TC) & previous report card for higher grades.<br><br>👉 <a href='#' class='chat-link-admission' style='color:#B8860B; font-weight:800; text-decoration:underline;'>Click here to open the Online Admission Application Form</a>.";
+    }
+
+    if (q.includes('fee') || q.includes('charge') || q.includes('installment') || q.includes('payment') || q.includes('cost')) {
+      return "💰 <strong>Annual Fee & Installment Structure:</strong><br><br>• <strong>Pre-Primary (Nursery - UKG):</strong> ~₹26,000 / year<br>• <strong>Primary Wing (Class I - V):</strong> ~₹32,000 / year<br>• <strong>Middle Wing (Class VI - VIII):</strong> ~₹38,000 / year<br>• <strong>Secondary (Class IX - X):</strong> ~₹46,000 / year<br>• <strong>Senior Secondary (XI - XII):</strong> ~₹50,000 – ₹54,000 / year<br>• <strong>Bus Transport:</strong> ₹9,000 – ₹15,000 / year by distance zone.<br><br><em>Fees are payable in 4 easy quarterly installments. You can also try our interactive Fee Calculator on the homepage!</em>";
+    }
+
+    if (q.includes('principal') || q.includes('amita')) {
+      return "👩‍🏫 <strong>Principal Details:</strong><br><br>• <strong>Name:</strong> Dr. Amita Chaturvedi<br>• <strong>Qualifications:</strong> M.Sc., M.Ed.<br>• <strong>Position:</strong> Principal, D.P.C. Role Model Excellence School, Seoni.<br>• She brings decades of distinguished educational leadership, fostering CBSE board merit and all-around student personality development.";
+    }
+
+    if (q.includes('director') || q.includes('patron') || q.includes('founder') || q.includes('samiti') || q.includes('society') || q.includes('k.k.') || q.includes('kk chaturvedi')) {
+      return "🏛️ <strong>Director & Institutional Heritage:</strong><br><br>• <strong>Director & Patron:</strong> Dr. K.K. Chaturvedi (Ph.D., M.Sc.(Maths), M.A., D.Lit., A.F.S.I.)<br>• <strong>Founding Vision:</strong> Inspired by late <strong>Shri D. P. Chaturvedi</strong> (Patron, teacher, philosopher) who initiated the DPC education mission in 1999.<br>• <strong>Management:</strong> Shri Ram Adarsh Shiksha Samiti.<br>• <strong>Establishment:</strong> The Role Model Excellence School campus was established in 2016.";
+    }
+
+    if (q.includes('cbse') || q.includes('affiliation') || q.includes('code') || q.includes('dise') || q.includes('board')) {
+      return "📜 <strong>CBSE Affiliation & Official Statutory Details:</strong><br><br>• <strong>Affiliation:</strong> Central Board of Secondary Education (CBSE), New Delhi<br>• <strong>Affiliation Number:</strong> 1031077<br>• <strong>School Code:</strong> 51045<br>• <strong>DISE Code:</strong> 23440107703<br>• <strong>Status:</strong> Co-educational, English Medium, Senior Secondary Level.";
+    }
+
+    if (q.includes('address') || q.includes('location') || q.includes('where') || q.includes('map') || q.includes('reach')) {
+      return "📍 <strong>School Location & Address:</strong><br><br>D.P.C. Role Model Excellence School<br><strong>Dreamland City, Dorlichhatarpur, Katangi Road, Seoni (M.P.) — 480661</strong><br><br>The campus is situated in a spacious, pollution-free, green educational sanctuary with modern infrastructure.";
+    }
+
+    if (q.includes('contact') || q.includes('phone') || q.includes('mobile') || q.includes('number') || q.includes('call') || q.includes('email')) {
+      return "📞 <strong>Official Contact Helplines:</strong><br><br>• <strong>Admissions Office:</strong> +91 9424887350<br>• <strong>Campus Helplines:</strong> 9479887990, 8817134960, 8359945067, 07692293635<br>• <strong>Official Email:</strong> dpcrolemodelschool@gmail.com<br>• <strong>Visiting Hours:</strong> Mon – Sat, 8:30 AM – 3:30 PM.";
+    }
+
+    if (q.includes('bus') || q.includes('transport') || q.includes('route') || q.includes('pickup') || q.includes('drop')) {
+      return "🚌 <strong>Safe School Transport Fleet:</strong><br><br>• Modern fleet of yellow buses equipped with <strong>GPS Live Tracking, CCTV Cameras, Speed Governors</strong>, and female attendants.<br>• Operating across Seoni City, Dorlichhatarpur, Katangi Road, and adjoining rural hubs.<br>• Real-time bus tracking alerts provided to parents.";
+    }
+
+    if (q.includes('timing') || q.includes('hours') || q.includes('time') || q.includes('saturday') || q.includes('holiday')) {
+      return "⏰ <strong>School & Campus Hours:</strong><br><br>• <strong>Class Timings:</strong> 8:00 AM – 2:00 PM (Monday to Saturday)<br>• <strong>Admissions & Admin Desk:</strong> 8:30 AM – 3:30 PM<br>• <strong>Open House Campus Visits:</strong> Every Saturday 10:00 AM – 2:00 PM.";
+    }
+
+    if (q.includes('lab') || q.includes('computer') || q.includes('facility') || q.includes('facilities') || q.includes('sports') || q.includes('library') || q.includes('smart class')) {
+      return "🔬 <strong>World-Class Campus Facilities:</strong><br><br>• <strong>Smart Classrooms:</strong> Interactive digital LED touch boards.<br>• <strong>Laboratories:</strong> Full Physics, Chemistry, and Biology practical labs.<br>• <strong>Computer & AI Hub:</strong> Coding, robotics, and computing workstations.<br>• <strong>Central Library:</strong> 10,000+ curriculum books, reference literature, and reading rooms.<br>• <strong>Sports Complex:</strong> Football ground, basketball, cricket nets, and athletics.";
+    }
+
+    if (q.includes('jee') || q.includes('neet') || q.includes('nda') || q.includes('competitive') || q.includes('coaching') || q.includes('stream')) {
+      return "🎯 <strong>Senior Secondary Streams & Competitive Coaching:</strong><br><br>• <strong>Streams in Class XI & XII:</strong> Science (PCM / PCB), Commerce, and Humanities.<br>• <strong>Integrated Coaching:</strong> Dedicated prep sessions for <strong>IIT-JEE, NEET, NDA, Olympiads, and CUET</strong> by senior specialist faculty.";
+    }
+
+    return "Thank you for reaching out to D.P.C. Role Model Excellence School! I can provide full information regarding:<br>• <strong>Admissions 2026-27</strong><br>• <strong>Fee Structure & Scholarships</strong><br>• <strong>Principal Dr. Amita Chaturvedi & Director Dr. K.K. Chaturvedi</strong><br>• <strong>CBSE Affiliation (Code: 51045, Affil: 1031077)</strong><br>• <strong>Bus Routes & Campus Location</strong><br><br>Please select any quick topic button below or ask your specific question!";
+  }
+
+  function handleUserMessage(queryText) {
+    if (!queryText || !queryText.trim()) return;
+    appendMessage(queryText, 'user');
+    if (aiInput) aiInput.value = '';
+
+    const reply = getSchoolResponse(queryText);
+    botReply(reply, 500);
+  }
+
+  if (aiForm) {
+    aiForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = aiInput ? aiInput.value : '';
+      handleUserMessage(val);
+    });
+  }
+
+  aiChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const q = chip.getAttribute('data-query');
+      handleUserMessage(q);
+    });
+  });
 });
