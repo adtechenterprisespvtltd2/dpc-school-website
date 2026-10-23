@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFDF00" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#AA771C" />
+    </linearGradient>
+    <linearGradient id="navyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F284E" />
+      <stop offset="100%" stop-color="#071428" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Emblem Shield -->
+  <g transform="translate(10, 10)">
+    <!-- Outer Shield -->
+    <path d="M50 0 L90 18 C90 65 50 92 50 98 C50 92 10 65 10 18 Z" fill="url(#navyGrad)" stroke="url(#goldGrad)" stroke-width="3" filter="url(#shadow)"/>
+    
+    <!-- Inner Gold Border -->
+    <path d="M50 7 L83 22 C83 61 50 85 50 90 C50 85 17 61 17 22 Z" fill="none" stroke="url(#goldGrad)" stroke-width="1.2" opacity="0.8"/>
+    
+    <!-- Central Book & Torch Emblem -->
+    <!-- Open Book -->
+    <path d="M30 55 C38 52 46 54 50 58 C54 54 62 52 70 55 L70 68 C62 65 54 67 50 71 C46 67 38 65 30 68 Z" fill="#F8FAFC" opacity="0.95"/>
+    <path d="M50 58 L50 71" stroke="#0F284E" stroke-width="1.5"/>
+
+    <!-- Torch Flame -->
+    <path d="M50 25 C53 32 58 35 55 42 C53 45 47 45 45 42 C42 35 47 32 50 25 Z" fill="url(#goldGrad)"/>
+    <path d="M48 33 C49 37 52 38 51 42 C50 43 47 43 46 41 C45 38 47 36 48 33 Z" fill="#FFF275"/>
+    
+    <!-- Torch Handle -->
+    <path d="M47 44 L53 44 L51 51 L49 51 Z" fill="url(#goldGrad)"/>
+
+    <!-- Academic Stars -->
+    <polygon points="26,30 28,34 32,34 29,37 30,41 26,38 22,41 23,37 20,34 24,34" fill="url(#goldGrad)" transform="scale(0.7) translate(8, 6)"/>
+    <polygon points="26,30 28,34 32,34 29,37 30,41 26,38 22,41 23,37 20,34 24,34" fill="url(#goldGrad)" transform="scale(0.7) translate(105, 6)"/>
+  </g>
+
+  <!-- Typography -->
+  <!-- Main Title -->
+  <text x="125" y="44" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-weight="900" font-size="28" letter-spacing="1.5" fill="#0C1E3C">
+    D.P.C. <tspan fill="#D4AF37">ROLE MODEL</tspan>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="126" y="70" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-weight="700" font-size="16" letter-spacing="3" fill="#183B70">
+    EXCELLENCE SCHOOL
+  </text>
+  
+  <!-- Affiliation & City Tag -->
+  <text x="126" y="93" font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-weight="600" font-size="11.5" letter-spacing="0.5" fill="#64748B">
+    CBSE AFFILIATED (NO. 1031077) • SEONI (M.P.)
+  </text>
+
+  <!-- Decorative Divider Line -->
+  <line x1="126" y1="102" x2="480" y2="102" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
