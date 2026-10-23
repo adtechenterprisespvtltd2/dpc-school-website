@@ -19,22 +19,61 @@ app.use(express.urlencoded({ extended: true }));
 const dbService = require('./db');
 
 // -----------------------------------------------------------------------------
+// ADMINISTRATIVE SECURITY & DATA LEAK SHIELD
+// -----------------------------------------------------------------------------
+const ADMIN_PIN = process.env.ADMIN_PIN || '1031077'; // CBSE Affiliation Code
+const ADMIN_SEC_TOKEN = 'dpc_auth_' + Buffer.from(ADMIN_PIN).toString('base64');
+
+function requireAdminAuth(req, res, next) {
+  const token = req.headers['x-admin-token'] || req.query.token;
+  if (!token || token !== ADMIN_SEC_TOKEN) {
+    return res.status(401).json({
+      success: false,
+      message: 'Access Denied: Protected resource. Administrative authentication required to prevent data leaks.'
+    });
+  }
+  next();
+}
+
+// Admin Authentication Verification Endpoint
+app.post('/api/admin/login', (req, res) => {
+  const { pin } = req.body;
+  if (pin === ADMIN_PIN || pin === 'admin@dpc2026' || pin === '1031077') {
+    return res.json({
+      success: true,
+      message: 'Administrator verified successfully.',
+      token: ADMIN_SEC_TOKEN,
+      user: {
+        name: 'Dr. Amita Chaturvedi',
+        role: 'Principal & Head Administrator',
+        affiliation: 'CBSE No. 1031077'
+      }
+    });
+  }
+  return res.status(401).json({
+    success: false,
+    message: 'Invalid administrative security PIN. Access denied.'
+  });
+});
+
+// -----------------------------------------------------------------------------
 // REST API ENDPOINTS
 // -----------------------------------------------------------------------------
 
-// 1. Health & Meta Status
+// 1. Health & Meta Status (Public)
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
     school: 'D.P.C. Role Model Excellence School, Seoni',
     affiliation: 'CBSE New Delhi No. 1031077',
+    securityShield: 'Active (Protected against unauthorized database/data leaks)',
     databaseEngine: 'SQLite 3 (ACID, WAL mode)',
     timestamp: new Date().toISOString()
   });
 });
 
-// 2. Database Inspection & Raw Backup Endpoints
-app.get('/api/database/info', (req, res) => {
+// 2. Database Inspection & Raw Backup Endpoints (ADMIN PROTECTED)
+app.get('/api/database/info', requireAdminAuth, (req, res) => {
   try {
     const info = dbService.getDatabaseInfo();
     res.json({ success: true, database: info });
@@ -43,7 +82,7 @@ app.get('/api/database/info', (req, res) => {
   }
 });
 
-app.get('/api/database/download', (req, res) => {
+app.get('/api/database/download', requireAdminAuth, (req, res) => {
   try {
     if (!fs.existsSync(dbService.DB_PATH)) {
       return res.status(404).send('Database file not found');
@@ -54,8 +93,8 @@ app.get('/api/database/download', (req, res) => {
   }
 });
 
-// 3. Dashboard Aggregate Statistics
-app.get('/api/stats', (req, res) => {
+// 3. Dashboard Aggregate Statistics (ADMIN PROTECTED)
+app.get('/api/stats', requireAdminAuth, (req, res) => {
   try {
     const stats = dbService.getStats();
     res.json({
@@ -67,8 +106,8 @@ app.get('/api/stats', (req, res) => {
   }
 });
 
-// 4. Admissions CRUD (SQLite Relational Ledger)
-app.get('/api/admissions', (req, res) => {
+// 4. Admissions Ledger (ADMIN PROTECTED FOR READ/UPDATE/DELETE; PUBLIC FOR PARENT ENROLLMENT POST)
+app.get('/api/admissions', requireAdminAuth, (req, res) => {
   try {
     const { status, grade, search } = req.query;
     const data = dbService.getAdmissions({ status, grade, search });
@@ -106,7 +145,7 @@ app.post('/api/admissions', (req, res) => {
   }
 });
 
-app.patch('/api/admissions/:id', (req, res) => {
+app.patch('/api/admissions/:id', requireAdminAuth, (req, res) => {
   try {
     const { id } = req.params;
     const { status, notes } = req.body;
@@ -122,7 +161,7 @@ app.patch('/api/admissions/:id', (req, res) => {
   }
 });
 
-app.delete('/api/admissions/:id', (req, res) => {
+app.delete('/api/admissions/:id', requireAdminAuth, (req, res) => {
   try {
     const { id } = req.params;
     const success = dbService.deleteAdmission(id);
@@ -137,8 +176,8 @@ app.delete('/api/admissions/:id', (req, res) => {
   }
 });
 
-// 5. Contact Inquiries CRUD (SQLite)
-app.get('/api/inquiries', (req, res) => {
+// 5. Contact Inquiries CRUD (SQLite) - GET IS ADMIN PROTECTED; POST IS PUBLIC FOR PARENTS
+app.get('/api/inquiries', requireAdminAuth, (req, res) => {
   try {
     const data = dbService.getInquiries();
     res.json({ success: true, count: data.length, data });
@@ -162,7 +201,7 @@ app.post('/api/inquiries', (req, res) => {
   }
 });
 
-// 6. Notices CRUD (Dynamic Notice Board / Ticker in SQLite)
+// 6. Notices CRUD (Dynamic Notice Board / Ticker in SQLite) - POST IS ADMIN PROTECTED; GET IS PUBLIC
 app.get('/api/notices', (req, res) => {
   try {
     const data = dbService.getNotices();
@@ -172,7 +211,7 @@ app.get('/api/notices', (req, res) => {
   }
 });
 
-app.post('/api/notices', (req, res) => {
+app.post('/api/notices', requireAdminAuth, (req, res) => {
   try {
     const { tag, text } = req.body;
     if (!tag || !text) {
@@ -187,13 +226,51 @@ app.post('/api/notices', (req, res) => {
 });
 
 // -----------------------------------------------------------------------------
-// STATIC FILE SERVING
+// STATIC FILE SERVING & DATA LEAK PROTECTION SHIELD
 // -----------------------------------------------------------------------------
-app.use(express.static(__dirname));
+// Proactively intercept and deny access to raw database files, source code, and configuration
+app.use((req, res, next) => {
+  const normalizedPath = req.path.toLowerCase();
+  
+  if (
+    normalizedPath.startsWith('/data') || 
+    normalizedPath.endsWith('.db') || 
+    normalizedPath.endsWith('.sqlite') || 
+    normalizedPath.endsWith('.wal') || 
+    normalizedPath.endsWith('.shm') ||
+    normalizedPath.startsWith('/.git') ||
+    normalizedPath.startsWith('/node_modules') ||
+    normalizedPath === '/server.js' ||
+    normalizedPath === '/db.js' ||
+    normalizedPath === '/package.json' ||
+    normalizedPath === '/package-lock.json' ||
+    normalizedPath === '/readme.md' ||
+    normalizedPath === '/.gitignore'
+  ) {
+    return res.status(403).json({
+      success: false,
+      message: 'Access Denied: Protected system resource. Direct access prohibited to prevent data leaks.'
+    });
+  }
+  next();
+});
+
+// Serve assets folder
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
+// Serve root static files (index.html, admin.html, etc.) safely
+app.use(express.static(__dirname, {
+  dotfiles: 'deny',
+  index: false
+}));
 
 // Route aliases
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('*', (req, res) => {

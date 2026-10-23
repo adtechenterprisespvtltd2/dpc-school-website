@@ -193,6 +193,7 @@ module.exports = {
     const nextNum = (totalRow.count + 1).toString().padStart(3, '0');
     const id = `DPC-2026-${nextNum}`;
     const date = new Date().toISOString().split('T')[0];
+    const defaultGrade = grade || 'General Admission';
     const defaultTransport = transport || 'Own Conveyance';
     const defaultStatus = 'Pending Followup';
     const defaultNotes = notes || 'Online portal application received.';
@@ -202,7 +203,7 @@ module.exports = {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
-    stmt.run(id, studentName.trim(), parentName.trim(), mobile.trim(), (email || '').trim(), grade, defaultTransport, defaultStatus, date, defaultNotes);
+    stmt.run(id, studentName.trim(), parentName.trim(), mobile.trim(), (email || '').trim(), defaultGrade, defaultTransport, defaultStatus, date, defaultNotes);
 
     return this.getAdmissionById(id);
   },
