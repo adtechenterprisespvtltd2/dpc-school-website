@@ -4,6 +4,17 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // 0. Dynamic Scroll Progress Bar
+  const progressBar = document.getElementById('scroll-progress-bar');
+  window.addEventListener('scroll', () => {
+    const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (progressBar && height > 0) {
+      const scrolled = (winScroll / height) * 100;
+      progressBar.style.width = `${scrolled}%`;
+    }
+  });
+
   // 1. Sticky Frosted Glass Navbar Scroll Effect
   const navbar = document.querySelector('.main-navbar');
   window.addEventListener('scroll', () => {
@@ -386,6 +397,63 @@ document.addEventListener('DOMContentLoaded', () => {
     chip.addEventListener('click', () => {
       const q = chip.getAttribute('data-query');
       handleUserMessage(q);
+    });
+  });
+
+  // 10. Chat Link to Admission Modal Trigger
+  document.addEventListener('click', (e) => {
+    if (e.target && e.target.classList.contains('chat-link-admission')) {
+      e.preventDefault();
+      openModal();
+    }
+  });
+
+  // 11. Scroll Entrance Reveal Observer (Smooth & Dynamic)
+  const revealElements = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+  } else {
+    revealElements.forEach(el => el.classList.add('is-revealed'));
+  }
+
+  // Fallback: Ensure all reveal elements are visible if scrolled or after initial delay
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.is-revealed)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight + 50) {
+        el.classList.add('is-revealed');
+      }
+    });
+  }, 400);
+
+  // 12. Interactive 3D Perspective Tilt on Mouse Movement
+  const tiltCards = document.querySelectorAll('.tilt-card, .facility-card, .step-card, .disclosure-card');
+  tiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
     });
   });
 });

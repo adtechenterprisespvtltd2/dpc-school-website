@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+  <!-- Dynamic Top Scroll Progress Indicator -->
+  <div id="scroll-progress-bar"></div>
 
   <!-- ===================================================================
        1. TOP ANNOUNCEMENT & TICKER BAR
@@ -225,9 +227,21 @@
     <div class="hero-ambient-glow"></div>
     <div class="hero-ambient-glow-2"></div>
 
+    <!-- Animated Floating Golden & Sapphire Light Particles -->
+    <div class="hero-particle-field">
+      <span class="hero-particle p1"></span>
+      <span class="hero-particle p2"></span>
+      <span class="hero-particle p3"></span>
+      <span class="hero-particle p4"></span>
+      <span class="hero-particle p5"></span>
+      <span class="hero-particle p6"></span>
+      <span class="hero-particle p7"></span>
+      <span class="hero-particle p8"></span>
+    </div>
+
     <div class="container hero-grid">
       <!-- Hero Copy -->
-      <div class="hero-copy">
+      <div class="hero-copy reveal reveal-left">
         <div class="hero-badge-strip">
           <span class="pulse-dot"></span>
           <span>CBSE AFFILIATED NO. 1031077 • ADMISSIONS OPEN 2026-27</span>
@@ -266,7 +280,7 @@
       </div>
 
       <!-- Hero Visual Showcase -->
-      <div class="hero-visual-card">
+      <div class="hero-visual-card reveal reveal-right">
         <div class="hero-image-wrapper">
           <img src="assets/images/campus-main.jpg" alt="DPC Role Model Excellence School Campus Building">
           <span class="hero-img-badge">Official Campus View</span>
@@ -291,6 +305,21 @@
         </div>
       </div>
     </div>
+
+    <!-- Organic Wave Divider with Golden Sheen -->
+    <div class="hero-bottom-wave">
+      <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none">
+        <path d="M0,24L48,29.3C96,35,192,45,288,42.7C384,40,480,27,576,26.7C672,27,768,40,864,48C960,56,1056,59,1152,50.7C1248,43,1344,24,1392,16L1440,8L1440,80L1392,80C1344,80,1248,80,1152,80C1056,80,960,80,864,80C768,80,672,80,576,80C480,80,384,80,288,80C192,80,96,80,48,80L0,80Z" fill="#FAF8F5"></path>
+        <path d="M0,24L48,29.3C96,35,192,45,288,42.7C384,40,480,27,576,26.7C672,27,768,40,864,48C960,56,1056,59,1152,50.7C1248,43,1344,24,1392,16L1440,8" stroke="url(#heroWaveGold)" stroke-width="2" opacity="0.65"></path>
+        <defs>
+          <linearGradient id="heroWaveGold" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.1" />
+            <stop offset="50%" stop-color="#FFE066" stop-opacity="0.95" />
+            <stop offset="100%" stop-color="#D4AF37" stop-opacity="0.1" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
   </section>
 
   <!-- ===================================================================
@@ -298,23 +327,27 @@
        =================================================================== -->
   <div class="stats-strip-container">
     <div class="container">
-      <div class="stats-grid-card">
-        <div class="stat-cell">
+      <div class="stats-grid-card reveal reveal-scale">
+        <div class="stat-cell reveal reveal-scale delay-1">
+          <div class="stat-icon-badge icon-sapphire">🎓</div>
           <div class="stat-number" data-count="1250">0<span class="symbol">+</span></div>
           <div class="stat-label">Students Enrolled</div>
           <div class="stat-desc">Nursery through Class XII</div>
         </div>
-        <div class="stat-cell">
+        <div class="stat-cell reveal reveal-scale delay-2">
+          <div class="stat-icon-badge icon-gold">🏆</div>
           <div class="stat-number" data-count="100">0<span class="symbol">%</span></div>
           <div class="stat-label">CBSE First Division</div>
           <div class="stat-desc">Consistently top academic honors</div>
         </div>
-        <div class="stat-cell">
+        <div class="stat-cell reveal reveal-scale delay-3">
+          <div class="stat-icon-badge icon-emerald">👥</div>
           <div class="stat-number" data-count="25">0<span class="symbol">:1</span></div>
           <div class="stat-label">Student-Teacher Ratio</div>
           <div class="stat-desc">Personalized attention for every child</div>
         </div>
-        <div class="stat-cell">
+        <div class="stat-cell reveal reveal-scale delay-4">
+          <div class="stat-icon-badge icon-amber">🚌</div>
           <div class="stat-number" data-count="18">0<span class="symbol">+</span></div>
           <div class="stat-label">Modern Fleet Buses</div>
           <div class="stat-desc">GPS-enabled secure transport</div>
@@ -328,7 +361,7 @@
        =================================================================== -->
   <section class="section-padding campus-spotlight-section" id="campus-spotlight">
     <div class="container">
-      <div class="section-header-center">
+      <div class="section-header-center reveal">
         <span class="section-badge">Welcome to Our Campus</span>
         <h2 class="section-title">A World of Opportunities in Seoni</h2>
         <p class="section-subtitle">
@@ -336,7 +369,7 @@
         </p>
       </div>
 
-      <div class="campus-viewer-box">
+      <div class="campus-viewer-box reveal reveal-scale">
         <img src="assets/images/campus-main.jpg" alt="DPC School Main Infrastructure" class="campus-viewer-image">
 
         <div class="campus-overlay-card">
@@ -361,7 +394,7 @@
        =================================================================== -->
   <section class="section-padding academics-section" id="academics">
     <div class="container">
-      <div class="section-header-center">
+      <div class="section-header-center reveal">
         <span class="section-badge section-badge-blue">Curriculum & Pedagogy</span>
         <h2 class="section-title">Comprehensive Academic Pathways</h2>
         <p class="section-subtitle">
@@ -370,14 +403,14 @@
       </div>
 
       <!-- Tab Controls -->
-      <div class="stage-tab-controls">
+      <div class="stage-tab-controls reveal">
         <button class="stage-tab-btn active" data-stage="primary">Primary & Foundation (Nursery - V)</button>
         <button class="stage-tab-btn" data-stage="middle">Middle Wing (VI - VIII)</button>
         <button class="stage-tab-btn" data-stage="senior">Secondary & Senior Secondary (IX - XII)</button>
       </div>
 
       <!-- Panel 1: Primary -->
-      <div class="stage-content-panel active" id="stage-primary">
+      <div class="stage-content-panel active reveal" id="stage-primary">
         <div class="stage-card-grid">
           <div class="stage-image-frame">
             <img src="assets/images/smart-classroom.jpg" alt="Primary Smart Classroom">
@@ -412,7 +445,7 @@
       </div>
 
       <!-- Panel 2: Middle -->
-      <div class="stage-content-panel" id="stage-middle">
+      <div class="stage-content-panel reveal" id="stage-middle">
         <div class="stage-card-grid">
           <div class="stage-image-frame">
             <img src="assets/images/computer-lab.jpg" alt="Middle School Robotics and AI Lab">
@@ -447,7 +480,7 @@
       </div>
 
       <!-- Panel 3: Senior -->
-      <div class="stage-content-panel" id="stage-senior">
+      <div class="stage-content-panel reveal" id="stage-senior">
         <div class="stage-card-grid">
           <div class="stage-image-frame">
             <img src="assets/images/science-lab.jpg" alt="Senior Secondary Science Lab">
@@ -488,7 +521,7 @@
        =================================================================== -->
   <section class="section-padding facilities-section" id="facilities">
     <div class="container">
-      <div class="section-header-center">
+      <div class="section-header-center reveal">
         <span class="section-badge">State-of-the-Art Campus</span>
         <h2 class="section-title">World-Class Infrastructure</h2>
         <p class="section-subtitle">
@@ -497,7 +530,7 @@
       </div>
 
       <!-- Filter Bar -->
-      <div class="facility-filter-bar">
+      <div class="facility-filter-bar reveal">
         <button class="filter-pill active" data-filter="all">All Facilities</button>
         <button class="filter-pill" data-filter="academic">Digital Classrooms</button>
         <button class="filter-pill" data-filter="stem">Science & AI Labs</button>
@@ -509,7 +542,7 @@
       <!-- Facility Cards Grid -->
       <div class="facilities-grid">
         <!-- Card 1: Smart Classes -->
-        <div class="facility-card" data-category="academic">
+        <div class="facility-card tilt-card reveal reveal-scale delay-1" data-category="academic">
           <div class="facility-card-media">
             <img src="assets/images/real_smart_class.jpg" alt="Smart Classrooms - DPC School">
             <span class="facility-badge">Digital</span>
@@ -525,10 +558,10 @@
         </div>
 
         <!-- Card 2: Science Lab -->
-        <div class="facility-card" data-category="stem">
+        <div class="facility-card tilt-card reveal reveal-scale delay-2" data-category="stem">
           <div class="facility-card-media">
             <img src="assets/images/real_science_lab.jpg" alt="Science Laboratory - DPC School">
-            <span class="facility-badge">STEM</span>
+            <span class="facility-badge" style="border-color: rgba(5, 150, 105, 0.45); color: #10B981;">STEM</span>
           </div>
           <div class="facility-card-body">
             <h4>Advanced Science Laboratories</h4>
@@ -541,10 +574,10 @@
         </div>
 
         <!-- Card 3: Computer & AI Lab -->
-        <div class="facility-card" data-category="stem">
+        <div class="facility-card tilt-card reveal reveal-scale delay-3" data-category="stem">
           <div class="facility-card-media">
             <img src="assets/images/real_computer.jpg" alt="Computer Lab - DPC School">
-            <span class="facility-badge">Technology</span>
+            <span class="facility-badge" style="border-color: rgba(14, 165, 233, 0.45); color: #38BDF8;">Technology</span>
           </div>
           <div class="facility-card-body">
             <h4>Modern Computing & IT Lab</h4>
@@ -557,10 +590,10 @@
         </div>
 
         <!-- Card 4: Library -->
-        <div class="facility-card" data-category="library">
+        <div class="facility-card tilt-card reveal reveal-scale delay-1" data-category="library">
           <div class="facility-card-media">
             <img src="assets/images/real_library.jpg" alt="Central Library - DPC School">
-            <span class="facility-badge">Reading Hub</span>
+            <span class="facility-badge" style="border-color: rgba(212, 175, 55, 0.45); color: #FFDF00;">Reading Hub</span>
           </div>
           <div class="facility-card-body">
             <h4>Central Knowledge Library</h4>
@@ -573,10 +606,10 @@
         </div>
 
         <!-- Card 5: Sports Complex -->
-        <div class="facility-card" data-category="sports">
+        <div class="facility-card tilt-card reveal reveal-scale delay-2" data-category="sports">
           <div class="facility-card-media">
             <img src="assets/images/real_sports.jpg" alt="Sports Ground - DPC School">
-            <span class="facility-badge">Athletics</span>
+            <span class="facility-badge" style="border-color: rgba(239, 68, 68, 0.45); color: #F87171;">Athletics</span>
           </div>
           <div class="facility-card-body">
             <h4>Spacious Playground & Sports</h4>
@@ -589,10 +622,10 @@
         </div>
 
         <!-- Card 6: Bus Transport Fleet -->
-        <div class="facility-card" data-category="transport">
+        <div class="facility-card tilt-card reveal reveal-scale delay-3" data-category="transport">
           <div class="facility-card-media">
             <img src="assets/images/real_transport.jpg" alt="School Buses Fleet - DPC School">
-            <span class="facility-badge">Transport</span>
+            <span class="facility-badge" style="border-color: rgba(245, 158, 11, 0.45); color: #FBBF24;">Transport</span>
           </div>
           <div class="facility-card-body">
             <h4>Safe GPS-Tracked Fleet</h4>
@@ -613,7 +646,7 @@
   <section class="section-padding leadership-section" id="leadership">
     <div class="container leadership-grid">
       <!-- Real Director Portrait -->
-      <div class="principal-portrait-frame">
+      <div class="principal-portrait-frame reveal reveal-left">
         <img src="assets/images/real_director.jpg" alt="Dr. K.K. Chaturvedi - Director, DPC School">
         <div class="principal-quote-card">
           <p>"Let us pray to God to be with us forever and with His blessings I envisage the glorious future of DPC School."</p>
@@ -622,7 +655,7 @@
       </div>
 
       <!-- Message from the Director's Desk -->
-      <div class="leadership-text">
+      <div class="leadership-text reveal reveal-right">
         <span class="section-badge" style="background: rgba(212, 175, 55, 0.2); color: #FFDF00; border-color: rgba(212, 175, 55, 0.4);">
           From the Director's Desk
         </span>
@@ -655,7 +688,7 @@
        =================================================================== -->
   <section class="section-padding cbse-corner-section" id="cbse-corner">
     <div class="container">
-      <div class="section-header-center">
+      <div class="section-header-center reveal">
         <span class="section-badge section-badge-blue">CBSE Compliance & Transparency</span>
         <h2 class="section-title">Mandatory Public Disclosure</h2>
         <p class="section-subtitle">
@@ -665,7 +698,7 @@
 
       <div class="cbse-disclosure-grid">
         <!-- Card 1 -->
-        <div class="disclosure-card">
+        <div class="disclosure-card tilt-card reveal reveal-scale delay-1">
           <div class="disclosure-icon">📋</div>
           <div class="disclosure-info">
             <h4>A: General Information</h4>
@@ -675,7 +708,7 @@
         </div>
 
         <!-- Card 2 -->
-        <div class="disclosure-card">
+        <div class="disclosure-card tilt-card reveal reveal-scale delay-2">
           <div class="disclosure-icon">📜</div>
           <div class="disclosure-info">
             <h4>B: Documents & Information</h4>
@@ -685,7 +718,7 @@
         </div>
 
         <!-- Card 3 -->
-        <div class="disclosure-card">
+        <div class="disclosure-card tilt-card reveal reveal-scale delay-3">
           <div class="disclosure-icon">📊</div>
           <div class="disclosure-info">
             <h4>C: Results & Academics</h4>
@@ -695,7 +728,7 @@
         </div>
 
         <!-- Card 4 -->
-        <div class="disclosure-card">
+        <div class="disclosure-card tilt-card reveal reveal-scale delay-4">
           <div class="disclosure-icon">🧑‍🏫</div>
           <div class="disclosure-info">
             <h4>D: Staff, Faculty & Infrastructure</h4>
@@ -712,7 +745,7 @@
        =================================================================== -->
   <section class="section-padding admissions-section" id="admissions">
     <div class="container">
-      <div class="section-header-center">
+      <div class="section-header-center reveal">
         <span class="section-badge">Admissions 2026-27</span>
         <h2 class="section-title">Your Child's Journey Begins Here</h2>
         <p class="section-subtitle">
@@ -722,22 +755,22 @@
 
       <!-- 4 Steps -->
       <div class="admission-steps-row">
-        <div class="step-card">
+        <div class="step-card tilt-card reveal reveal-scale delay-1">
           <div class="step-number">1</div>
           <h4>Online Enquiry</h4>
           <p>Fill out our simple digital enquiry form or call our admissions cell directly to register your interest.</p>
         </div>
-        <div class="step-card">
+        <div class="step-card tilt-card reveal reveal-scale delay-2">
           <div class="step-number">2</div>
           <h4>Campus Walkthrough</h4>
           <p>Schedule an interactive campus tour with our counselors, explore smart classrooms and meet subject mentors.</p>
         </div>
-        <div class="step-card">
+        <div class="step-card tilt-card reveal reveal-scale delay-3">
           <div class="step-number">3</div>
           <h4>Assessment & Interaction</h4>
           <p>Age-appropriate friendly interaction for early years, and basic conceptual appraisal for senior grades.</p>
         </div>
-        <div class="step-card">
+        <div class="step-card tilt-card reveal reveal-scale delay-4">
           <div class="step-number">4</div>
           <h4>Formal Enrollment</h4>
           <p>Document verification, welcome orientation kit, uniform and bus route allotment to start the academic journey.</p>
@@ -745,7 +778,7 @@
       </div>
 
       <!-- Interactive Calculator Card (Stripe-inspired interactive widget) -->
-      <div class="admission-calc-card">
+      <div class="admission-calc-card reveal reveal-up">
         <div class="calc-info">
           <span style="color: #FFDF00; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Instant Fee Estimator</span>
           <h3>Transparent & Affordable CBSE Excellence</h3>
@@ -796,7 +829,7 @@
        =================================================================== -->
   <section class="section-padding gallery-section" id="gallery">
     <div class="container">
-      <div class="section-header-center">
+      <div class="section-header-center reveal">
         <span class="section-badge section-badge-blue">Vibrant Student Life</span>
         <h2 class="section-title">Life at D.P.C. Excellence</h2>
         <p class="section-subtitle">
@@ -805,7 +838,7 @@
       </div>
 
       <div class="gallery-grid">
-        <div class="gallery-item">
+        <div class="gallery-item reveal reveal-scale delay-1">
           <img src="assets/images/campus-main.jpg" alt="DPC Campus Gate and Building">
           <div class="gallery-overlay">
             <h5>DPC Main Academic Block</h5>
@@ -813,7 +846,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item reveal reveal-scale delay-2">
           <img src="assets/images/real_building.jpg" alt="DPC Role Model Excellence School Building">
           <div class="gallery-overlay">
             <h5>Main School Building</h5>
@@ -821,7 +854,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item reveal reveal-scale delay-3">
           <img src="assets/images/real_banner1.jpg" alt="Annual Function Celebrations">
           <div class="gallery-overlay">
             <h5>School Events & Annual Function</h5>
@@ -829,7 +862,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item reveal reveal-scale delay-4">
           <img src="assets/images/real_banner2.jpg" alt="Academic Activities">
           <div class="gallery-overlay">
             <h5>Academic & Co-curricular Meet</h5>
@@ -837,7 +870,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item reveal reveal-scale delay-1">
           <img src="assets/images/real_banner3.jpg" alt="Cultural Fest">
           <div class="gallery-overlay">
             <h5>Cultural & Festive Celebrations</h5>
@@ -845,7 +878,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item reveal reveal-scale delay-2">
           <img src="assets/images/real_banner4.jpg" alt="Campus Life and Honors">
           <div class="gallery-overlay">
             <h5>Life at DPC Excellence</h5>
@@ -853,7 +886,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item reveal reveal-scale delay-3">
           <img src="assets/images/real_play_group.jpg" alt="Kindergarten Play Activity">
           <div class="gallery-overlay">
             <h5>Early Childhood Play Activity</h5>
@@ -861,7 +894,7 @@
           </div>
         </div>
 
-        <div class="gallery-item">
+        <div class="gallery-item reveal reveal-scale delay-4">
           <img src="assets/images/real_director.jpg" alt="Dr. K.K. Chaturvedi - Director">
           <div class="gallery-overlay">
             <h5>Institutional Mentorship</h5>
@@ -877,7 +910,7 @@
        =================================================================== -->
   <section class="section-padding testimonials-section">
     <div class="container">
-      <div class="section-header-center">
+      <div class="section-header-center reveal">
         <span class="section-badge">Community Trust</span>
         <h2 class="section-title">What Parents & Students Say</h2>
         <p class="section-subtitle">
@@ -886,7 +919,7 @@
       </div>
 
       <div class="testimonials-grid">
-        <div class="testimonial-card">
+        <div class="testimonial-card tilt-card reveal reveal-scale delay-1">
           <div class="stars-rating">★★★★★</div>
           <p class="testimonial-quote">
             "Enrolling our daughter in DPC Role Model School was the best decision. The smart classrooms and personalized attention have made her confident, inquisitive, and academically strong."
@@ -900,7 +933,7 @@
           </div>
         </div>
 
-        <div class="testimonial-card">
+        <div class="testimonial-card tilt-card reveal reveal-scale delay-2">
           <div class="stars-rating">★★★★★</div>
           <p class="testimonial-quote">
             "The science and computer laboratories are truly world-class. Our teachers support our competitive exam preparation alongside CBSE board curriculum. The teachers are exceptional."
@@ -914,7 +947,7 @@
           </div>
         </div>
 
-        <div class="testimonial-card">
+        <div class="testimonial-card tilt-card reveal reveal-scale delay-3">
           <div class="stars-rating">★★★★★</div>
           <p class="testimonial-quote">
             "The school bus service is punctual, safe with GPS tracking, and the campus environment is secure and disciplined. We are proud that Seoni has such an outstanding educational institution."
@@ -937,7 +970,7 @@
   <section class="section-padding contact-section" id="contact">
     <div class="container contact-grid">
       <!-- Contact Information -->
-      <div class="contact-card-box">
+      <div class="contact-card-box reveal reveal-left">
         <span class="section-badge">Get in Touch</span>
         <h3 style="font-family: var(--font-heading); font-size: 2rem; color: var(--primary-dark); margin-bottom: 20px;">
           Visit D.P.C. Excellence Campus
@@ -980,7 +1013,7 @@
       </div>
 
       <!-- Quick Message Form -->
-      <div class="inquiry-form-card">
+      <div class="inquiry-form-card reveal reveal-right">
         <h3 style="font-family: var(--font-heading); font-size: 1.8rem; color: var(--primary-dark); margin-bottom: 10px;">
           Send an Online Inquiry
         </h3>
