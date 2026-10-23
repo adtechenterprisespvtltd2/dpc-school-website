@@ -834,20 +834,46 @@ button, input, select, textarea {
   padding: 8px;
 }
 
+/* Bulletproof Mobile Scroll Lock for Open Drawers & Modals */
+html.modal-locked,
+body.modal-locked {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+}
+
+/* Hide mobile bottom dock completely when drawer is open so it cannot bleed or obstruct drawer actions */
+body.modal-locked .mobile-bottom-dock,
+.mobile-drawer.open ~ .mobile-bottom-dock {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(100%) !important;
+  transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s ease !important;
+}
+
 /* Mobile Sidebar Drawer */
 .mobile-drawer {
   position: fixed;
   top: 0;
   right: -100%;
-  width: 85%;
+  width: 86%;
   max-width: 380px;
-  height: 100vh;
+  height: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
   background: #FFFFFF;
-  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2);
-  z-index: 200;
-  padding: 24px;
-  overflow-y: auto;
-  transition: right var(--transition-smooth);
+  box-shadow: -10px 0 45px rgba(0, 0, 0, 0.45);
+  z-index: 10002;
+  padding: 24px 20px calc(110px + env(safe-area-inset-bottom, 20px));
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+  transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobile-drawer.open {
@@ -856,16 +882,19 @@ button, input, select, textarea {
 
 .drawer-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(7, 21, 43, 0.6);
-  backdrop-filter: blur(4px);
-  z-index: 199;
+  height: 100dvh;
+  background: rgba(5, 14, 29, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10001;
   opacity: 0;
   visibility: hidden;
-  transition: all var(--transition-smooth);
+  touch-action: none;
+  overscroll-behavior: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .drawer-overlay.active {

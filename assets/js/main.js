@@ -25,46 +25,109 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // ===================================================================
+  // Bulletproof Mobile Background Scroll Lock System
+  // ===================================================================
+  let scrollPosition = 0;
+  let activeOverlaysCount = 0;
+
+  function lockBackgroundScroll() {
+    activeOverlaysCount++;
+    if (activeOverlaysCount === 1) {
+      scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      document.documentElement.classList.add('modal-locked');
+      document.body.classList.add('modal-locked');
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollPosition}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+    }
+  }
+
+  function unlockBackgroundScroll() {
+    activeOverlaysCount = Math.max(0, activeOverlaysCount - 1);
+    if (activeOverlaysCount === 0) {
+      const savedTop = document.body.style.top;
+      document.documentElement.classList.remove('modal-locked');
+      document.body.classList.remove('modal-locked');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      const restoreY = savedTop ? Math.abs(parseInt(savedTop, 10)) : scrollPosition;
+      window.scrollTo(0, restoreY);
+    }
+  }
+
   // 2. Mobile Drawer Navigation
   const mobileToggles = document.querySelectorAll('.mobile-nav-toggle');
   const mobileDrawer = document.getElementById('mobile-drawer') || document.querySelector('.mobile-drawer');
   const drawerOverlay = document.getElementById('drawer-overlay') || document.querySelector('.drawer-overlay');
   const drawerClose = document.getElementById('drawer-close-btn') || document.querySelector('.drawer-close');
+  let isDrawerOpen = false;
 
   function openDrawer() {
-    if (!mobileDrawer || !drawerOverlay) return;
+    if (!mobileDrawer || !drawerOverlay || isDrawerOpen) return;
+    isDrawerOpen = true;
     mobileDrawer.classList.add('open');
     drawerOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    lockBackgroundScroll();
   }
 
   function closeDrawer() {
-    if (!mobileDrawer || !drawerOverlay) return;
+    if (!mobileDrawer || !drawerOverlay || !isDrawerOpen) return;
+    isDrawerOpen = false;
     mobileDrawer.classList.remove('open');
     drawerOverlay.classList.remove('active');
-    document.body.style.overflow = '';
+    unlockBackgroundScroll();
   }
 
-  mobileToggles.forEach(btn => btn.addEventListener('click', openDrawer));
+  mobileToggles.forEach(btn => btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openDrawer();
+  }));
   if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
-  if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+  if (drawerOverlay) {
+    drawerOverlay.addEventListener('click', closeDrawer);
+    drawerOverlay.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    }, { passive: false });
+  }
 
   document.querySelectorAll('.drawer-link').forEach(link => {
-    link.addEventListener('click', closeDrawer);
+    link.addEventListener('click', () => {
+      closeDrawer();
+    });
   });
 
-  // Touch swipe to close on mobile
+  // Touch swipe to close on mobile: ONLY close on intentional horizontal swipe to right
+  // Checks diffX > 80 AND diffY < 40 so vertical menu scrolling is completely untouched!
   let touchStartX = 0;
+  let touchStartY = 0;
   let touchEndX = 0;
+  let touchEndY = 0;
+
   if (mobileDrawer) {
     mobileDrawer.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
+      if (e.touches && e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
     }, { passive: true });
 
     mobileDrawer.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      if (touchEndX - touchStartX > 50) {
-        closeDrawer();
+      if (e.changedTouches && e.changedTouches.length === 1) {
+        touchEndX = e.changedTouches[0].clientX;
+        touchEndY = e.changedTouches[0].clientY;
+        const diffX = touchEndX - touchStartX;
+        const diffY = Math.abs(touchEndY - touchStartY);
+
+        // Only close if clearly swiped horizontally to the right
+        if (diffX > 80 && diffY < 40) {
+          closeDrawer();
+        }
       }
     }, { passive: true });
   }
@@ -180,18 +243,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalClose = document.getElementById('modal-close-btn');
   const openModalBtns = document.querySelectorAll('.trigger-admission-modal');
 
+  let isModalOpen = false;
   function openModal() {
     if (typeof closeDrawer === 'function') closeDrawer();
-    if (modalBackdrop) {
+    if (modalBackdrop && !isModalOpen) {
+      isModalOpen = true;
       modalBackdrop.classList.add('active');
-      document.body.style.overflow = 'hidden';
+      lockBackgroundScroll();
     }
   }
 
   function closeModal() {
-    if (modalBackdrop) {
+    if (modalBackdrop && isModalOpen) {
+      isModalOpen = false;
       modalBackdrop.classList.remove('active');
-      document.body.style.overflow = '';
+      unlockBackgroundScroll();
     }
   }
 
@@ -294,6 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxCaption = document.getElementById('lightbox-caption');
   const lightboxClose = document.getElementById('lightbox-close');
+  let isLightboxOpen = false;
 
   if (galleryItems.length && lightboxModal && lightboxImg) {
     galleryItems.forEach(item => {
@@ -304,22 +371,27 @@ document.addEventListener('DOMContentLoaded', () => {
           lightboxImg.src = img.src;
           if (lightboxCaption) lightboxCaption.innerText = title;
           lightboxModal.classList.add('active');
-          document.body.style.overflow = 'hidden';
+          isLightboxOpen = true;
+          lockBackgroundScroll();
         }
       });
     });
 
-    if (lightboxClose) {
-      lightboxClose.addEventListener('click', () => {
+    const closeLightbox = () => {
+      if (isLightboxOpen) {
         lightboxModal.classList.remove('active');
-        document.body.style.overflow = '';
-      });
+        isLightboxOpen = false;
+        unlockBackgroundScroll();
+      }
+    };
+
+    if (lightboxClose) {
+      lightboxClose.addEventListener('click', closeLightbox);
     }
 
     lightboxModal.addEventListener('click', (e) => {
       if (e.target === lightboxModal) {
-        lightboxModal.classList.remove('active');
-        document.body.style.overflow = '';
+        closeLightbox();
       }
     });
   }
