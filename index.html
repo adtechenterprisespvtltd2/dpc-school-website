@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>D.P.C. Role Model Excellence School | CBSE Affiliated No. 1031077 | Seoni, MP</title>
   <meta name="description" content="D.P.C. Role Model Excellence School in Seoni (M.P.) is an elite CBSE co-educational institution providing world-class smart classrooms, STEM science labs, robotics, sports, and holistic character education.">
   <meta name="keywords" content="DPC School Seoni, D P C Role Model Excellence School, CBSE School Seoni MP, Admissions Seoni, Best School in Seoni, CBSE Affiliation 1031077">
@@ -199,28 +199,55 @@
     </div>
   </header>
 
-  <!-- Mobile Drawer -->
-  <div class="drawer-overlay"></div>
-  <aside class="mobile-drawer">
+  <!-- High-Prestige Mobile Navigation Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="mobile-drawer" id="mobile-drawer">
     <div class="drawer-header">
-      <img src="assets/images/logo.svg" alt="DPC School" style="height: 44px;">
-      <button class="drawer-close" aria-label="Close Navigation Menu">✕</button>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="assets/images/logo.svg" alt="DPC School" style="height: 38px;">
+        <div>
+          <div style="font-weight: 800; font-size: 0.92rem; color: #0F284E; line-height: 1.1;">D.P.C. ROLE MODEL</div>
+          <div style="font-size: 0.65rem; font-weight: 700; color: #B8860B; letter-spacing: 0.8px;">EXCELLENCE SCHOOL • SEONI</div>
+        </div>
+      </div>
+      <button class="drawer-close" id="drawer-close-btn" aria-label="Close Navigation Menu">✕</button>
     </div>
+
+    <div class="drawer-cbse-badge">
+      <span>CBSE AFFILIATION NO. 1031077</span>
+      <span class="badge-dot"></span>
+      <span>CODE: 51045</span>
+    </div>
+
     <ul class="drawer-menu">
-      <li><a href="#hero" class="drawer-link">Home</a></li>
-      <li><a href="#campus-spotlight" class="drawer-link">Campus Overview</a></li>
-      <li><a href="#academics" class="drawer-link">Academics & Curriculum</a></li>
-      <li><a href="#facilities" class="drawer-link">World-Class Facilities</a></li>
-      <li><a href="#cbse-corner" class="drawer-link">CBSE Mandatory Disclosure</a></li>
-      <li><a href="#leadership" class="drawer-link">Principal's Desk</a></li>
-      <li><a href="#admissions" class="drawer-link">Admission 2026-27</a></li>
-      <li><a href="#gallery" class="drawer-link">Life @ DPC Gallery</a></li>
-      <li><a href="#contact" class="drawer-link">Contact & Location</a></li>
+      <li><a href="#hero" class="drawer-link"><span class="drawer-icon">🏠</span> Home</a></li>
+      <li><a href="#campus-spotlight" class="drawer-link"><span class="drawer-icon">🏫</span> Campus Overview</a></li>
+      <li><a href="#leadership" class="drawer-link"><span class="drawer-icon">👩‍🏫</span> Principal's Message</a></li>
+      <li><a href="#academics" class="drawer-link"><span class="drawer-icon">📚</span> Academics (Nursery - XII)</a></li>
+      <li><a href="#facilities" class="drawer-link"><span class="drawer-icon">🔬</span> Smart Labs & Facilities</a></li>
+      <li><a href="#cbse-corner" class="drawer-link"><span class="drawer-icon">📜</span> CBSE Mandatory Disclosure</a></li>
+      <li><a href="#admissions" class="drawer-link"><span class="drawer-icon">📝</span> Admissions & Eligibility</a></li>
+      <li><a href="#gallery" class="drawer-link"><span class="drawer-icon">📸</span> Life @ DPC Gallery</a></li>
+      <li><a href="#testimonials" class="drawer-link"><span class="drawer-icon">⭐</span> Parent Testimonials</a></li>
+      <li><a href="#contact" class="drawer-link"><span class="drawer-icon">📍</span> Contact & Location</a></li>
+      <li><a href="admin.html" class="drawer-link drawer-link-admin"><span class="drawer-icon">⚙️</span> Staff / Admin ERP Portal</a></li>
     </ul>
-    <div style="margin-top: 24px;">
-      <button class="btn-primary trigger-admission-modal" style="width: 100%; justify-content: center;">
-        Apply for Admission
+
+    <div class="drawer-actions">
+      <button class="btn-primary trigger-admission-modal" style="width: 100%; justify-content: center; padding: 12px; margin-bottom: 12px;">
+        ⚡ Apply for Admission 2026-27
       </button>
+
+      <div class="drawer-contact-row">
+        <a href="tel:+919424887350" class="drawer-btn-call">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          Call Helpline
+        </a>
+        <a href="https://wa.me/919424887350" target="_blank" class="drawer-btn-wa">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+          WhatsApp
+        </a>
+      </div>
     </div>
   </aside>
 
@@ -1146,6 +1173,36 @@
       <span>⚡ Apply 2026-27</span>
     </button>
   </div>
+
+  <!-- Mobile App-Style Sticky Bottom Dock (Active on Mobile Phones < 768px) -->
+  <nav class="mobile-bottom-dock" id="mobile-bottom-dock" aria-label="Mobile Navigation Dock">
+    <a href="tel:+919424887350" class="dock-item" title="Call School Helpline">
+      <div class="dock-icon">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+      </div>
+      <span>Call</span>
+    </a>
+    <a href="https://wa.me/919424887350" target="_blank" class="dock-item dock-wa" title="WhatsApp Admissions Office">
+      <div class="dock-icon">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+      </div>
+      <span>WhatsApp</span>
+    </a>
+    <button class="dock-item dock-item-highlight trigger-admission-modal" title="Apply for Admission 2026-27">
+      <div class="dock-icon">⚡</div>
+      <span>Apply</span>
+    </button>
+    <button class="dock-item dock-ai-btn" id="mobile-dock-ai-btn" title="Ask AI School Assistant">
+      <div class="dock-icon">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><circle cx="8" cy="10" r="1.5"/><circle cx="12" cy="10" r="1.5"/><circle cx="16" cy="10" r="1.5"/></svg>
+      </div>
+      <span>AI Help</span>
+    </button>
+    <button class="dock-item mobile-nav-toggle" title="Open Navigation Menu">
+      <div class="dock-icon">☰</div>
+      <span>Menu</span>
+    </button>
+  </nav>
 
   <!-- ===================================================================
        16. ADMISSION INQUIRY MODAL (APPLE / STRIPE CLEAN OVERLAY)

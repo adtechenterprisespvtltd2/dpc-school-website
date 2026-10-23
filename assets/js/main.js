@@ -26,30 +26,48 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 2. Mobile Drawer Navigation
-  const mobileToggle = document.querySelector('.mobile-nav-toggle');
-  const mobileDrawer = document.querySelector('.mobile-drawer');
-  const drawerOverlay = document.querySelector('.drawer-overlay');
-  const drawerClose = document.querySelector('.drawer-close');
+  const mobileToggles = document.querySelectorAll('.mobile-nav-toggle');
+  const mobileDrawer = document.getElementById('mobile-drawer') || document.querySelector('.mobile-drawer');
+  const drawerOverlay = document.getElementById('drawer-overlay') || document.querySelector('.drawer-overlay');
+  const drawerClose = document.getElementById('drawer-close-btn') || document.querySelector('.drawer-close');
 
   function openDrawer() {
+    if (!mobileDrawer || !drawerOverlay) return;
     mobileDrawer.classList.add('open');
     drawerOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
   function closeDrawer() {
+    if (!mobileDrawer || !drawerOverlay) return;
     mobileDrawer.classList.remove('open');
     drawerOverlay.classList.remove('active');
     document.body.style.overflow = '';
   }
 
-  if (mobileToggle) mobileToggle.addEventListener('click', openDrawer);
+  mobileToggles.forEach(btn => btn.addEventListener('click', openDrawer));
   if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
   if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
 
   document.querySelectorAll('.drawer-link').forEach(link => {
     link.addEventListener('click', closeDrawer);
   });
+
+  // Touch swipe to close on mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+  if (mobileDrawer) {
+    mobileDrawer.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    mobileDrawer.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchEndX - touchStartX > 50) {
+        closeDrawer();
+      }
+    }, { passive: true });
+  }
 
   // 3. Academic Stages Tab Switcher
   const stageTabs = document.querySelectorAll('.stage-tab-btn');
@@ -163,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const openModalBtns = document.querySelectorAll('.trigger-admission-modal');
 
   function openModal() {
+    if (typeof closeDrawer === 'function') closeDrawer();
     if (modalBackdrop) {
       modalBackdrop.classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -323,6 +342,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (aiToggle) aiToggle.addEventListener('click', toggleAiChat);
+  const mobileDockAiBtn = document.getElementById('mobile-dock-ai-btn');
+  if (mobileDockAiBtn) mobileDockAiBtn.addEventListener('click', toggleAiChat);
   if (aiClose) aiClose.addEventListener('click', () => aiWindow.classList.remove('active'));
 
   function appendMessage(text, sender = 'bot') {

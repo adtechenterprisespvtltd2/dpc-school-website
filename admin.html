@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Admin ERP Portal | D.P.C. Role Model Excellence School, Seoni</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -714,6 +714,112 @@
       border-radius: var(--radius-full);
       font-size: 0.75rem;
       font-weight: 800;
+    }
+
+    /* Admin Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .admin-navbar {
+        padding: 12px 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .admin-brand {
+        gap: 10px;
+      }
+
+      .admin-brand img {
+        height: 36px;
+      }
+
+      .admin-brand-text h2 {
+        font-size: 1rem;
+      }
+
+      .admin-brand-text p {
+        font-size: 0.65rem;
+      }
+
+      .admin-nav-actions {
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .admin-layout {
+        padding: 0 12px 40px;
+        margin: 16px auto;
+      }
+
+      .admin-header-row h1 {
+        font-size: 1.6rem;
+      }
+
+      .admin-header-actions {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+      }
+
+      .admin-header-actions button {
+        flex: 1;
+        justify-content: center;
+        padding: 9px 12px;
+        font-size: 0.8rem;
+      }
+
+      .admin-main-card {
+        padding: 16px 12px;
+        border-radius: var(--radius-md);
+      }
+
+      .admin-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .search-box {
+        max-width: 100%;
+        min-width: 100%;
+      }
+
+      .filter-group {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+      }
+
+      .filter-select {
+        flex: 1;
+        font-size: 0.8rem;
+        padding: 8px 10px;
+      }
+
+      .table-responsive {
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .db-inspector-card {
+        padding: 16px 14px;
+      }
+
+      .db-inspector-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .db-inspector-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .btn-db-download, .btn-db-refresh {
+        flex: 1;
+        justify-content: center;
+        font-size: 0.75rem;
+      }
     }
   </style>
 </head>
