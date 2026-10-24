@@ -19,40 +19,27 @@ app.use(express.urlencoded({ extended: true }));
 const dbService = require('./db');
 
 // -----------------------------------------------------------------------------
-// ADMINISTRATIVE SECURITY & DATA LEAK SHIELD
+// DIRECT ADMINISTRATIVE ACCESS (ZERO PASSWORD REQUIREMENT)
+// Direct 1-click access for Director and Admin as requested
 // -----------------------------------------------------------------------------
-const ADMIN_PIN = process.env.ADMIN_PIN || '1031077'; // CBSE Affiliation Code
-const ADMIN_SEC_TOKEN = 'dpc_auth_' + Buffer.from(ADMIN_PIN).toString('base64');
-
 function requireAdminAuth(req, res, next) {
-  const token = req.headers['x-admin-token'] || req.query.token;
-  if (!token || token !== ADMIN_SEC_TOKEN) {
-    return res.status(401).json({
-      success: false,
-      message: 'Access Denied: Protected resource. Administrative authentication required to prevent data leaks.'
-    });
-  }
+  // Direct open access for Director & Admin portals (no password/PIN required)
   next();
 }
 
-// Admin Authentication Verification Endpoint
+// Admin / Director Authentication Verification Endpoint (Always passes directly)
 app.post('/api/admin/login', (req, res) => {
-  const { pin } = req.body;
-  if (pin === ADMIN_PIN || pin === 'admin@dpc2026' || pin === '1031077') {
-    return res.json({
-      success: true,
-      message: 'Administrator verified successfully.',
-      token: ADMIN_SEC_TOKEN,
-      user: {
-        name: 'Dr. Amita Chaturvedi',
-        role: 'Principal & Head Administrator',
-        affiliation: 'CBSE No. 1031077'
-      }
-    });
-  }
-  return res.status(401).json({
-    success: false,
-    message: 'Invalid administrative security PIN. Access denied.'
+  const { role } = req.body || {};
+  const isDirector = role === 'Director';
+  return res.json({
+    success: true,
+    message: 'Direct access granted.',
+    token: 'direct_admin_access',
+    user: {
+      name: isDirector ? 'Dr. K.K. Chaturvedi' : 'Dr. Amita Chaturvedi',
+      role: isDirector ? 'Managing Director' : 'Principal & Head Administrator',
+      affiliation: 'CBSE No. 1031077'
+    }
   });
 });
 

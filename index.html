@@ -62,9 +62,11 @@
       </div>
 
       <div class="top-quick-contacts">
-        <a href="admin.html" class="top-tour-link" style="background: rgba(14, 165, 233, 0.16); border-color: rgba(14, 165, 233, 0.45); color: #38BDF8;" title="School Administration & Admissions Control Center">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          Staff / Admin Portal
+        <a href="admin.html?role=Director" class="top-tour-link" style="background: rgba(212, 175, 55, 0.2); border-color: rgba(212, 175, 55, 0.55); color: #FFDF00; font-weight: 700; text-decoration: none;" title="Direct 1-Click Access: Director Executive Portal (Dr. K.K. Chaturvedi)">
+          <span>👑 Director Portal</span>
+        </a>
+        <a href="admin.html?role=Admin" class="top-tour-link" style="background: rgba(14, 165, 233, 0.2); border-color: rgba(14, 165, 233, 0.55); color: #38BDF8; font-weight: 700; text-decoration: none;" title="Direct 1-Click Access: Admin & Principal ERP Portal (Dr. Amita Chaturvedi)">
+          <span>⚙️ Admin ERP</span>
         </a>
         <button class="top-tour-link trigger-admission-modal">
           <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -176,6 +178,13 @@
 
       <!-- Nav Actions - Sleek Non-Wrapping CTA -->
       <div class="nav-actions">
+        <!-- Direct 1-Click Access Portals (Zero Password) -->
+        <a href="admin.html?role=Director" class="nav-portal-btn" style="background: rgba(212, 175, 55, 0.16); border: 1.5px solid #D4AF37; color: #FFDF00; padding: 7px 12px; font-size: 0.8rem; font-weight: 800; border-radius: var(--radius-full); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s;" title="Direct 1-Click Access: Director Executive Portal (Dr. K.K. Chaturvedi)">
+          <span>👑 Director</span>
+        </a>
+        <a href="admin.html?role=Admin" class="nav-portal-btn" style="background: rgba(14, 165, 233, 0.15); border: 1.5px solid #38BDF8; color: #FFFFFF; padding: 7px 12px; font-size: 0.8rem; font-weight: 800; border-radius: var(--radius-full); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s;" title="Direct 1-Click Access: Admin ERP Portal (Dr. Amita Chaturvedi)">
+          <span>⚙️ Admin</span>
+        </a>
         <button class="btn-primary trigger-fee-modal" id="btn-header-pay-fee" style="background: rgba(212, 175, 55, 0.15); border: 1.5px solid #D4AF37; color: #FFDF00; padding: 7px 14px; font-size: 0.82rem; font-weight: 700; border-radius: var(--radius-full); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
           <span>💳 Pay Fees</span>
         </button>
@@ -223,8 +232,16 @@
       <li><a href="#" class="drawer-link trigger-fee-modal" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #065F46;"><span class="drawer-icon">💳</span> Online Fee Payment & Receipt</a></li>
       <li><a href="#gallery" class="drawer-link"><span class="drawer-icon">📸</span> Life @ DPC Gallery</a></li>
       <li><a href="#testimonials" class="drawer-link"><span class="drawer-icon">⭐</span> Parent Testimonials</a></li>
-      <li><a href="#contact" class="drawer-link"><span class="drawer-icon">📍</span> Contact & Location</a></li>
-      <li><a href="admin.html" class="drawer-link drawer-link-admin"><span class="drawer-icon">⚙️</span> Staff / Admin ERP Portal</a></li>
+      <li style="margin-top: 10px; border-top: 1px dashed rgba(15, 40, 78, 0.15); padding-top: 10px;">
+        <a href="admin.html?role=Director" class="drawer-link" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.18) 0%, rgba(212, 175, 55, 0.08) 100%); border: 1.5px solid #D4AF37; color: #996515; font-weight: 800;">
+          <span class="drawer-icon">👑</span> Director Portal (Direct Access)
+        </a>
+      </li>
+      <li>
+        <a href="admin.html?role=Admin" class="drawer-link" style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.18) 0%, rgba(14, 165, 233, 0.08) 100%); border: 1.5px solid #38BDF8; color: #0284C7; font-weight: 800;">
+          <span class="drawer-icon">👩‍🏫</span> Admin & Principal ERP (Direct Access)
+        </a>
+      </li>
     </ul>
 
     <div class="drawer-actions">
@@ -1640,6 +1657,8 @@
           <li><a href="#cbse-corner">CBSE Public Disclosure</a></li>
           <li><a href="#leadership">Principal's Address</a></li>
           <li><a href="#admissions">Admissions 2026-27</a></li>
+          <li><a href="admin.html?role=Director" style="color: #FFDF00; font-weight: 700;">👑 Director Portal (Direct)</a></li>
+          <li><a href="admin.html?role=Admin" style="color: #7DD3FC; font-weight: 700;">⚙️ Admin & Staff ERP (Direct)</a></li>
         </ul>
       </div>
 
@@ -1662,11 +1681,19 @@
         <p style="font-size: 0.88rem; line-height: 1.6; color: rgba(255, 255, 255, 0.7); margin-bottom: 16px;">
           Managed by <strong>Shri Ram Adarsh Shiksha Samiti</strong>, established in honor of the inspiring vision of late Shri D.P. Chaturvedi.
         </p>
-        <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.6);">
+        <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 14px;">
           📍 Dreamland City, Dorlichhatarpur, Katangi Road, Seoni (M.P.) 480661<br>
           📞 +91 9424887350<br>
           ✉️ dpcrolemodelschool@gmail.com
         </p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <a href="admin.html?role=Director" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.4); color: #FFDF00; padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-decoration: none;">
+            <span>👑 Director Portal (Direct Access)</span>
+          </a>
+          <a href="admin.html?role=Admin" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(14, 165, 233, 0.4); color: #7DD3FC; padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; text-decoration: none;">
+            <span>👩‍🏫 Admin & Principal ERP Desk</span>
+          </a>
+        </div>
       </div>
     </div>
 

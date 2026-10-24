@@ -81,6 +81,45 @@
       gap: 12px;
     }
 
+    .direct-role-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1.5px solid transparent;
+      outline: none;
+    }
+
+    .direct-role-pill:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    .direct-role-pill.active-director {
+      background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%) !important;
+      color: #061122 !important;
+      border-color: #FFDF00 !important;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.45) !important;
+    }
+
+    .direct-role-pill.active-admin {
+      background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%) !important;
+      color: #FFFFFF !important;
+      border-color: #7DD3FC !important;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.45) !important;
+    }
+
+    .direct-role-pill.inactive-pill {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: #CBD5E1 !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
     .role-switcher-box {
       display: flex;
       align-items: center;
@@ -625,30 +664,7 @@
 </head>
 <body>
 
-  <!-- Administrative Authentication Lock Shield (Anti-Data Leak) -->
-  <div id="admin-auth-shield" style="position: fixed; inset: 0; background: linear-gradient(135deg, #061122 0%, #0F2342 100%); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px;">
-    <div style="background: #FFFFFF; border-radius: 20px; max-width: 440px; width: 100%; padding: 36px 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); text-align: center; border: 2px solid rgba(212, 175, 55, 0.5);">
-      <img src="assets/images/logo.png" alt="DPC Crest" style="height: 64px; width: 64px; object-fit: contain; margin-bottom: 14px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15)); border-radius: 50%;">
-      <h3 style="font-family: var(--font-heading); font-size: 1.45rem; color: #061122; margin-bottom: 6px;">Staff ERP Security Shield</h3>
-      <p style="font-size: 0.82rem; color: #64748B; margin-bottom: 22px;">Restricted administrative access. Please enter the Administrator Security PIN to prevent unauthorized data leaks.</p>
-      
-      <form id="admin-login-form">
-        <div style="margin-bottom: 16px; text-align: left;">
-          <label style="font-size: 0.8rem; font-weight: 700; color: #334155; display: block; margin-bottom: 6px;">Administrator Security PIN</label>
-          <input type="password" id="admin-pin-input" class="form-control" placeholder="Enter PIN (e.g. 1031077)" required style="padding: 12px 14px; font-size: 16px; width: 100%; border: 1.5px solid #CBD5E1; border-radius: 8px; box-sizing: border-box;">
-        </div>
-        <div id="login-error-msg" style="color: #DC2626; font-size: 0.82rem; font-weight: 700; margin-bottom: 12px; display: none;"></div>
-        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 0.95rem;">
-          🔒 Verify & Unlock ERP Portal
-        </button>
-      </form>
-      <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #E2E8F0; font-size: 0.72rem; color: #64748B;">
-        Default Staff PIN: <strong>1031077</strong> (CBSE Affiliation Code)
-      </div>
-    </div>
-  </div>
-
-  <!-- Top Admin Bar -->
+  <!-- Top Admin Bar with Direct 1-Click Director & Admin Access Buttons -->
   <header class="admin-navbar">
     <div class="admin-brand">
       <img src="assets/images/logo.png" alt="DPC School Crest">
@@ -659,24 +675,35 @@
     </div>
 
     <div class="admin-nav-actions">
-      <!-- Role Switcher -->
-      <div class="role-switcher-box">
+      <!-- Direct 1-Click Access Buttons (No Password Required) -->
+      <div class="direct-role-buttons" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <button id="direct-btn-director" class="direct-role-pill" onclick="selectDirectRole('Director')" title="One-click access to Director Executive Control Panel">
+          <span style="font-size: 0.95rem;">👑</span>
+          <span>Director Portal</span>
+          <span style="font-size: 0.72rem; opacity: 0.85; font-weight: 600;">(Dr. K.K. Chaturvedi)</span>
+        </button>
+        <button id="direct-btn-admin" class="direct-role-pill" onclick="selectDirectRole('Principal')" title="One-click access to School Admin & Admissions ERP">
+          <span style="font-size: 0.95rem;">👩‍🏫</span>
+          <span>Admin & Principal ERP</span>
+          <span style="font-size: 0.72rem; opacity: 0.85; font-weight: 600;">(Dr. Amita Chaturvedi)</span>
+        </button>
+      </div>
+
+      <!-- Quick Role Dropdown for Secondary Staff -->
+      <div class="role-switcher-box" style="display: none;">
         <span>Active Role:</span>
         <select id="role-select" aria-label="Select Active Role">
           <option value="Director">👑 Director (Dr. K.K. Chaturvedi)</option>
-          <option value="Principal" selected>👩‍🏫 Principal (Dr. Amita Chaturvedi)</option>
+          <option value="Principal">👩‍🏫 Principal (Dr. Amita Chaturvedi)</option>
           <option value="Teacher">🧑‍🏫 Teacher / Faculty</option>
           <option value="Accounts">💳 Accounts & Bursar Desk</option>
         </select>
       </div>
 
-      <a href="index.html" class="btn-admin-site" target="_blank">
+      <a href="index.html" class="btn-admin-site" target="_blank" title="Open Main Website in New Tab">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
         Live Website
       </a>
-      <button id="btn-admin-logout" style="background: rgba(220, 38, 38, 0.15); color: #FCA5A5; border: 1px solid rgba(220, 38, 38, 0.35); padding: 6px 12px; border-radius: var(--radius-full); font-size: 0.78rem; font-weight: 700; cursor: pointer;">
-        Lock 🔒
-      </button>
     </div>
   </header>
 
@@ -1487,43 +1514,49 @@
   <!-- JAVASCRIPT LOGIC ENGINE -->
   <script>
     // Security & Auth Token Management
-    const ADMIN_STORAGE_KEY = 'dpc_admin_token';
+    // Direct 1-Click Role Engine (Zero Password Required)
     const ADMIN_ROLE_KEY = 'dpc_active_role';
 
     function getAdminAuthHeaders() {
-      const token = sessionStorage.getItem(ADMIN_STORAGE_KEY) || 'dpc_auth_' + btoa('1031077');
       return {
-        'Content-Type': 'application/json',
-        'x-admin-token': token
+        'Content-Type': 'application/json'
       };
     }
 
-    function checkAuth() {
-      const token = sessionStorage.getItem(ADMIN_STORAGE_KEY);
-      if (!token) {
-        showAuthShield();
-        return false;
+    function selectDirectRole(role) {
+      sessionStorage.setItem(ADMIN_ROLE_KEY, role);
+      updateRoleDisplay(role);
+      if (role === 'Director') {
+        switchErpTab('tab-director');
+        showToastNotice('👑 Switched to Director Command Center (Dr. K.K. Chaturvedi)');
+      } else {
+        switchErpTab('tab-admissions');
+        showToastNotice('👩‍🏫 Switched to Admin & Principal ERP Desk (Dr. Amita Chaturvedi)');
       }
-      hideAuthShield();
-      return true;
     }
 
-    function showAuthShield() {
-      document.getElementById('admin-auth-shield').style.display = 'flex';
+    function updateRoleDisplay(role) {
+      const isDirector = role === 'Director';
+      const btnDirector = document.getElementById('direct-btn-director');
+      const btnAdmin = document.getElementById('direct-btn-admin');
+      if (btnDirector && btnAdmin) {
+        if (isDirector) {
+          btnDirector.className = 'direct-role-pill active-director';
+          btnAdmin.className = 'direct-role-pill inactive-pill';
+        } else {
+          btnAdmin.className = 'direct-role-pill active-admin';
+          btnDirector.className = 'direct-role-pill inactive-pill';
+        }
+      }
+      const roleSelect = document.getElementById('role-select');
+      if (roleSelect) roleSelect.value = isDirector ? 'Director' : 'Principal';
     }
 
-    function hideAuthShield() {
-      document.getElementById('admin-auth-shield').style.display = 'none';
-    }
-
-    // Role switcher
+    // Role select listener (fallback/sync)
     const roleSelect = document.getElementById('role-select');
     if (roleSelect) {
-      const savedRole = sessionStorage.getItem(ADMIN_ROLE_KEY) || 'Principal';
-      roleSelect.value = savedRole;
       roleSelect.addEventListener('change', () => {
-        sessionStorage.setItem(ADMIN_ROLE_KEY, roleSelect.value);
-        showToastNotice(`Switched to active role: ${roleSelect.value}`);
+        selectDirectRole(roleSelect.value);
       });
     }
 
@@ -2355,36 +2388,32 @@
       loadDirectorData();
     });
 
-    // Login Form
-    document.getElementById('admin-login-form')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const pin = document.getElementById('admin-pin-input').value;
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin })
-      });
-      const data = await res.json();
-      if (data.success && data.token) {
-        sessionStorage.setItem(ADMIN_STORAGE_KEY, data.token);
-        hideAuthShield();
-        loadDirectorData();
-      } else {
-        const err = document.getElementById('login-error-msg');
-        err.innerText = data.message || 'Invalid PIN';
-        err.style.display = 'block';
-      }
-    });
-
-    document.getElementById('btn-admin-logout')?.addEventListener('click', () => {
-      sessionStorage.removeItem(ADMIN_STORAGE_KEY);
-      showAuthShield();
-    });
-
-    // Initial Load
+    // Initial Direct Load (Immediate 1-Click Access Without Password)
     document.addEventListener('DOMContentLoaded', () => {
-      if (checkAuth()) {
-        loadDirectorData();
+      const urlParams = new URLSearchParams(window.location.search);
+      const roleParam = urlParams.get('role');
+      const hash = window.location.hash.replace('#', '');
+
+      let initialRole = 'Director';
+      if (roleParam) {
+        const lower = roleParam.toLowerCase();
+        if (lower === 'admin' || lower === 'principal') {
+          initialRole = 'Principal';
+        } else {
+          initialRole = 'Director';
+        }
+      } else if (sessionStorage.getItem(ADMIN_ROLE_KEY)) {
+        initialRole = sessionStorage.getItem(ADMIN_ROLE_KEY);
+      }
+
+      updateRoleDisplay(initialRole);
+
+      if (hash && document.getElementById(hash)) {
+        switchErpTab(hash);
+      } else if (initialRole === 'Director') {
+        switchErpTab('tab-director');
+      } else {
+        switchErpTab('tab-admissions');
       }
     });
   </script>
