@@ -225,6 +225,18 @@
       <span>CODE: 51045</span>
     </div>
 
+    <!-- Featured VIP Mobile Fee Payment Banner -->
+    <div class="drawer-fee-banner trigger-fee-modal" style="background: linear-gradient(135deg, #07152B 0%, #0F284E 100%); border: 1.5px solid #D4AF37; border-radius: 12px; margin: 12px 14px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-size: 1.5rem; background: rgba(212, 175, 55, 0.2); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #D4AF37;">💳</div>
+        <div>
+          <div style="font-size: 0.88rem; font-weight: 800; color: #FFFFFF; line-height: 1.2;">Online Fee Payment</div>
+          <div style="font-size: 0.68rem; color: #FFDF00; font-weight: 600;">Instant QR • Download Receipt</div>
+        </div>
+      </div>
+      <div style="background: #D4AF37; color: #061122; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px;">Pay →</div>
+    </div>
+
     <ul class="drawer-menu">
       <li><a href="#hero" class="drawer-link"><span class="drawer-icon">🏠</span> Home</a></li>
       <li><a href="#campus-spotlight" class="drawer-link"><span class="drawer-icon">🏫</span> Campus Overview</a></li>
@@ -313,6 +325,9 @@
           <button class="btn-primary trigger-admission-modal" id="btn-hero-enquire">
             <span>Enquire for Admission</span>
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+          <button class="btn-hero-pay-fee trigger-fee-modal" id="btn-hero-pay-fee" style="background: rgba(212, 175, 55, 0.18); border: 1.5px solid #D4AF37; color: #FFDF00; padding: 12px 20px; font-weight: 800; border-radius: var(--radius-full); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 0.92rem; transition: all 0.2s ease;">
+            <span>💳 Pay Fees Online</span>
           </button>
           <a href="#campus-spotlight" class="btn-white">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -1845,6 +1860,9 @@
     </div>
     <span class="ai-toggle-label">Ask DPC AI</span>
   </div>
+
+  <!-- AI Chat Dimming Backdrop & Touch Lock Shield -->
+  <div class="dpc-ai-chat-backdrop" id="dpc-ai-backdrop"></div>
 
   <div class="dpc-ai-chat-window" id="dpc-ai-window">
     <div class="ai-chat-header">

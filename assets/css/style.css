@@ -834,9 +834,11 @@ button, input, select, textarea {
   padding: 8px;
 }
 
-/* Bulletproof Mobile Scroll Lock for Open Drawers & Modals */
+/* Bulletproof Mobile Scroll Lock for Open Drawers, Modals & AI Chat */
 html.modal-locked,
-body.modal-locked {
+body.modal-locked,
+html.ai-chat-open,
+body.ai-chat-open {
   overflow: hidden !important;
   position: fixed !important;
   width: 100% !important;
@@ -845,8 +847,9 @@ body.modal-locked {
   overscroll-behavior: none !important;
 }
 
-/* Hide mobile bottom dock completely when drawer is open so it cannot bleed or obstruct drawer actions */
+/* Hide mobile bottom dock completely when drawer or ai-chat is open so it cannot bleed or obstruct actions */
 body.modal-locked .mobile-bottom-dock,
+body.ai-chat-open .mobile-bottom-dock,
 .mobile-drawer.open ~ .mobile-bottom-dock {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -3068,6 +3071,26 @@ body.modal-locked .mobile-bottom-dock,
   letter-spacing: 0.4px;
 }
 
+/* AI Chat Backdrop Shield */
+.dpc-ai-chat-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 21, 43, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 305;
+  opacity: 0;
+  visibility: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.dpc-ai-chat-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* Chat Window */
 .dpc-ai-chat-window {
   position: fixed;
@@ -3482,6 +3505,9 @@ body.modal-locked .mobile-bottom-dock,
   .nav-menu-links {
     display: none !important;
   }
+  .nav-actions .nav-portal-btn {
+    display: none !important;
+  }
   .mobile-nav-toggle {
     display: flex !important;
     align-items: center;
@@ -3511,18 +3537,79 @@ body.modal-locked .mobile-bottom-dock,
     display: none !important;
   }
 
-  /* AI Chat Window as Native Mobile Bottom Sheet */
+  /* AI Chat Window as Native Mobile App View */
   .dpc-ai-chat-window {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
     bottom: 0 !important;
-    right: 0 !important;
     left: 0 !important;
+    right: 0 !important;
     width: 100vw !important;
     max-width: 100vw !important;
-    height: 85vh !important;
-    max-height: 85vh !important;
-    border-radius: 20px 20px 0 0 !important;
-    z-index: 500 !important;
-    box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.4) !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    max-height: 100% !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    background: #FFFFFF !important;
+    box-shadow: none !important;
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, visibility 0.2s ease !important;
+  }
+
+  .dpc-ai-chat-window.active {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .dpc-ai-chat-backdrop {
+    z-index: 99998 !important;
+  }
+
+  .ai-chat-header {
+    flex: 0 0 auto !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px 16px !important;
+  }
+
+  .ai-chat-messages {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
+    padding: 16px 14px !important;
+  }
+
+  .ai-chat-chips {
+    flex: 0 0 auto !important;
+    padding: 8px 12px !important;
+    overscroll-behavior: contain !important;
+  }
+
+  .ai-chat-input-bar {
+    flex: 0 0 auto !important;
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 10 !important;
+    padding: 10px 14px calc(12px + env(safe-area-inset-bottom, 0px)) 14px !important;
+    background: #FFFFFF !important;
+    border-top: 1px solid var(--border-light) !important;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05) !important;
   }
 
   /* Inputs prevent iOS auto-zoom */
@@ -3554,9 +3641,12 @@ body.modal-locked .mobile-bottom-dock,
     font-size: 0.95rem;
   }
 
-  /* Navbar Perfectly Oriented - NO Cutoffs */
-  #btn-admission-header {
-    display: none !important; /* Critical: hides bulky button so logo & hamburger fit seamlessly */
+  /* Navbar Clean & Spacious - Best School Pattern: Logo + Crest + Hamburger Only */
+  #btn-admission-header,
+  #btn-header-pay-fee,
+  .nav-actions #btn-header-pay-fee,
+  .nav-actions .nav-portal-btn {
+    display: none !important; /* Critical: Hides bulky buttons on phone so official school name is NEVER truncated */
   }
 
   .nav-container {

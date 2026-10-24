@@ -401,6 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===================================================================
   const aiToggle = document.getElementById('dpc-ai-toggle');
   const aiWindow = document.getElementById('dpc-ai-window');
+  const aiBackdrop = document.getElementById('dpc-ai-backdrop');
   const aiClose = document.getElementById('ai-chat-close');
   const aiMessages = document.getElementById('ai-chat-messages');
   const aiForm = document.getElementById('ai-chat-form');
@@ -408,23 +409,79 @@ document.addEventListener('DOMContentLoaded', () => {
   const aiChips = document.querySelectorAll('.ai-chip');
 
   let hasGreeted = false;
+  let scrollPosBeforeChat = 0;
 
-  function toggleAiChat() {
+  function openAiChat() {
     if (!aiWindow) return;
-    const isActive = aiWindow.classList.toggle('active');
-    if (isActive && !hasGreeted) {
+    if (typeof closeDrawer === 'function') closeDrawer();
+    aiWindow.classList.add('active');
+    if (aiBackdrop) aiBackdrop.classList.add('active');
+    lockBackgroundScroll();
+
+    if (!hasGreeted) {
       hasGreeted = true;
       botReply("👋 **Hello! Welcome to D.P.C. Role Model Excellence School.**<br>I am your 24/7 AI Campus Assistant. Ask me anything about admissions, fee structures, bus routes, CBSE accreditations, or leadership details!");
     }
-    if (isActive && aiInput) {
-      setTimeout(() => aiInput.focus(), 300);
+    setTimeout(() => {
+      if (aiMessages) aiMessages.scrollTop = aiMessages.scrollHeight;
+      if (aiInput && window.innerWidth > 768) aiInput.focus();
+    }, 200);
+  }
+
+  function closeAiChat() {
+    if (!aiWindow) return;
+    aiWindow.classList.remove('active');
+    if (aiBackdrop) aiBackdrop.classList.remove('active');
+    aiWindow.style.height = '';
+    aiWindow.style.top = '';
+    unlockBackgroundScroll();
+  }
+
+  function toggleAiChat() {
+    if (!aiWindow) return;
+    if (aiWindow.classList.contains('active')) {
+      closeAiChat();
+    } else {
+      openAiChat();
     }
   }
 
   if (aiToggle) aiToggle.addEventListener('click', toggleAiChat);
   const mobileDockAiBtn = document.getElementById('mobile-dock-ai-btn');
   if (mobileDockAiBtn) mobileDockAiBtn.addEventListener('click', toggleAiChat);
-  if (aiClose) aiClose.addEventListener('click', () => aiWindow.classList.remove('active'));
+  if (aiClose) aiClose.addEventListener('click', closeAiChat);
+  if (aiBackdrop) aiBackdrop.addEventListener('click', closeAiChat);
+
+  // Prevent background scroll bleed when dragging on backdrop or header
+  if (aiBackdrop) {
+    aiBackdrop.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+  }
+  const aiHeader = document.querySelector('.ai-chat-header');
+  if (aiHeader) {
+    aiHeader.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+  }
+
+  // Handle mobile virtual keyboard resize dynamically so chat header is NEVER cut off
+  if (window.visualViewport) {
+    const handleViewportResize = () => {
+      if (aiWindow && aiWindow.classList.contains('active') && window.innerWidth <= 768) {
+        aiWindow.style.height = `${window.visualViewport.height}px`;
+        aiWindow.style.top = `${window.visualViewport.offsetTop}px`;
+        if (aiMessages) {
+          aiMessages.scrollTop = aiMessages.scrollHeight;
+        }
+      }
+    };
+    window.visualViewport.addEventListener('resize', handleViewportResize);
+    window.visualViewport.addEventListener('scroll', handleViewportResize);
+  }
+
+  // Prevent touchmove inside message scroll area from leaking to document
+  if (aiMessages) {
+    aiMessages.addEventListener('touchmove', (e) => {
+      e.stopPropagation();
+    }, { passive: true });
+  }
 
   function appendMessage(text, sender = 'bot') {
     if (!aiMessages) return;
