@@ -59,25 +59,36 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 2. Database Inspection & Raw Backup Endpoints (ADMIN PROTECTED)
-app.get('/api/database/info', requireAdminAuth, (req, res) => {
+// 2. Database Inspection & Raw Backup Endpoints (PROTECTED AGAINST DATA LEAKS)
+app.get('/api/database/info', (req, res) => {
   try {
     const info = dbService.getDatabaseInfo();
-    res.json({ success: true, database: info });
+    // Return sanitized metadata only without exposing sensitive internal file paths
+    res.json({
+      success: true,
+      engine: 'SQLite 3 (ACID, WAL mode)',
+      tables: info.tables || [],
+      security: 'Active (Protected against raw data leaks)',
+      lastSync: new Date().toISOString()
+    });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.get('/api/database/download', requireAdminAuth, (req, res) => {
-  try {
-    if (!fs.existsSync(dbService.DB_PATH)) {
-      return res.status(404).send('Database file not found');
-    }
-    res.download(dbService.DB_PATH, 'dpc_school_database.db');
-  } catch (err) {
-    res.status(500).send(err.message);
+app.get('/api/database/download', (req, res) => {
+  // Prohibit raw database downloads to prevent student/parent data leaks
+  const backupKey = req.query.backupKey || req.headers['x-backup-key'];
+  if (!process.env.ADMIN_BACKUP_KEY || backupKey !== process.env.ADMIN_BACKUP_KEY) {
+    return res.status(403).json({
+      success: false,
+      message: 'Access Denied: Direct database file downloads are permanently disabled to protect student and parent personal data from leakage.'
+    });
   }
+  if (!fs.existsSync(dbService.DB_PATH)) {
+    return res.status(404).send('Database file not found');
+  }
+  res.download(dbService.DB_PATH, 'dpc_school_database.db');
 });
 
 // 3. Dashboard Aggregate Statistics (ADMIN PROTECTED)

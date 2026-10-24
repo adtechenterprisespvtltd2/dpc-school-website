@@ -21,27 +21,47 @@
       --admin-border: #E2E8F0;
     }
 
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+
     body {
       background: var(--admin-bg);
       color: #1E293B;
       min-height: 100vh;
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      margin: 0;
+    }
+
+    /* Admin Sticky Header Unified Container */
+    .admin-sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      background: #061122;
     }
 
     /* Admin Navigation Bar */
     .admin-navbar {
       background: linear-gradient(90deg, #061122 0%, #0F2342 50%, #061122 100%);
       color: #FFFFFF;
-      padding: 12px 24px;
+      padding: 10px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid rgba(212, 175, 55, 0.45);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      gap: 12px;
+      width: 100%;
     }
 
     .admin-brand {
@@ -58,41 +78,89 @@
       filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.4));
     }
 
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      cursor: pointer;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .admin-brand:hover h2 {
+      color: #FFDF00;
+    }
+
+    .admin-brand img {
+      height: 40px;
+      width: 40px;
+      object-fit: contain;
+      border-radius: 50%;
+      filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.4));
+      flex-shrink: 0;
+    }
+
+    .admin-brand-text {
+      min-width: 0;
+    }
+
     .admin-brand-text h2 {
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       font-weight: 800;
       color: #FFFFFF;
       margin: 0;
       line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.2s;
     }
 
     .admin-brand-text p {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       color: #FFDF00;
       margin: 0;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.7px;
       font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .admin-nav-actions {
+    .admin-nav-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    /* Direct 1-Click Role Switcher Bar */
+    .admin-role-bar {
+      background: #09172E;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6px 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
     }
 
     .direct-role-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
+      padding: 7px 16px;
       border-radius: var(--radius-full);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       border: 1.5px solid transparent;
       outline: none;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .direct-role-pill:hover {
@@ -120,33 +188,6 @@
       border-color: rgba(255, 255, 255, 0.15) !important;
     }
 
-    .role-switcher-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      font-size: 0.78rem;
-      color: #CBD5E1;
-    }
-
-    .role-switcher-box select {
-      background: transparent;
-      border: none;
-      color: #FFDF00;
-      font-weight: 800;
-      font-size: 0.8rem;
-      cursor: pointer;
-      outline: none;
-    }
-
-    .role-switcher-box select option {
-      background: #061122;
-      color: #FFFFFF;
-    }
-
     .btn-admin-site {
       background: rgba(255, 255, 255, 0.12);
       color: #FFFFFF;
@@ -160,6 +201,7 @@
       align-items: center;
       gap: 6px;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
     .btn-admin-site:hover {
@@ -169,17 +211,23 @@
 
     /* Sub-Header Tab Bar (ERP Module Switcher) */
     .erp-tab-bar {
-      background: #09172E;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-      padding: 0 24px;
+      background: #0B1E3C;
+      border-bottom: 2px solid rgba(212, 175, 55, 0.35);
+      padding: 0 20px;
       display: flex;
-      gap: 6px;
+      gap: 4px;
       overflow-x: auto;
       white-space: nowrap;
-      position: sticky;
-      top: 66px;
-      z-index: 900;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .erp-tab-bar::-webkit-scrollbar {
+      display: none;
+      height: 0px;
+      width: 0px;
     }
 
     .erp-tab-btn {
@@ -196,16 +244,18 @@
       border-bottom: 3px solid transparent;
       transition: all 0.2s;
       outline: none;
+      flex-shrink: 0;
     }
 
     .erp-tab-btn:hover {
       color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .erp-tab-btn.active {
       color: #FFDF00;
       border-bottom-color: #D4AF37;
-      background: rgba(212, 175, 55, 0.08);
+      background: rgba(212, 175, 55, 0.12);
     }
 
     .erp-tab-badge {
@@ -640,105 +690,184 @@
       }
     }
 
-    @media (max-width: 768px) {
-      .admin-navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        padding: 10px 14px;
+    /* Mobile & Tablet Ultra-Responsive Design */
+    @media (max-width: 900px) {
+      .admin-layout {
+        padding: 14px 14px 60px;
+        margin: 12px auto;
       }
-      .admin-nav-actions {
+      .admin-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .admin-layout {
+        padding: 10px 10px 60px;
+        margin: 8px auto;
+      }
+      .admin-navbar {
+        padding: 8px 12px;
+        gap: 8px;
+      }
+      .admin-brand img {
+        height: 34px;
+        width: 34px;
+      }
+      .admin-brand-text h2 {
+        font-size: 0.86rem;
+      }
+      .admin-brand-text p {
+        font-size: 0.58rem;
+        letter-spacing: 0.4px;
+      }
+      .btn-admin-site {
+        padding: 5px 10px;
+        font-size: 0.74rem;
+      }
+      .btn-admin-site span {
+        display: inline;
+      }
+      .admin-role-bar {
+        padding: 6px 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .direct-role-pill {
+        justify-content: center;
+        padding: 7px 8px;
+        font-size: 0.74rem;
         width: 100%;
-        justify-content: space-between;
+        text-align: center;
+      }
+      .direct-role-pill .role-person {
+        display: none; /* Hide long names on phone to avoid overflow */
       }
       .erp-tab-bar {
-        top: 108px;
-        padding: 0 10px;
+        padding: 0 8px;
+        gap: 4px;
       }
       .erp-tab-btn {
-        padding: 10px 12px;
-        font-size: 0.78rem;
+        padding: 9px 10px;
+        font-size: 0.75rem;
+      }
+      .admin-metrics-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .metric-card {
+        padding: 12px 10px;
+      }
+      .metric-card-number {
+        font-size: 1.5rem;
+      }
+      .admin-card {
+        padding: 14px;
+        margin-bottom: 16px;
+      }
+      .admin-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .admin-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-box {
+        min-width: 100%;
+        max-width: 100%;
+      }
+      .filter-group {
+        width: 100%;
+      }
+      .filter-select {
+        flex: 1;
+        min-width: 110px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .admin-metrics-grid {
+        grid-template-columns: 1fr;
+      }
+      .admin-brand-text p {
+        display: none; /* Hide subtitle on tiny screens for ultra-clean header */
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Admin Bar with Direct 1-Click Director & Admin Access Buttons -->
-  <header class="admin-navbar">
-    <div class="admin-brand">
-      <img src="assets/images/logo.png" alt="DPC School Crest">
-      <div class="admin-brand-text">
-        <h2>D.P.C. Role Model Excellence School</h2>
-        <p>CBSE Affiliated No. 1031077 • Multi-Role ERP & Director Command Center</p>
-      </div>
-    </div>
-
-    <div class="admin-nav-actions">
-      <!-- Direct 1-Click Access Buttons (No Password Required) -->
-      <div class="direct-role-buttons" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-        <button id="direct-btn-director" class="direct-role-pill" onclick="selectDirectRole('Director')" title="One-click access to Director Executive Control Panel">
-          <span style="font-size: 0.95rem;">👑</span>
-          <span>Director Portal</span>
-          <span style="font-size: 0.72rem; opacity: 0.85; font-weight: 600;">(Dr. K.K. Chaturvedi)</span>
-        </button>
-        <button id="direct-btn-admin" class="direct-role-pill" onclick="selectDirectRole('Principal')" title="One-click access to School Admin & Admissions ERP">
-          <span style="font-size: 0.95rem;">👩‍🏫</span>
-          <span>Admin & Principal ERP</span>
-          <span style="font-size: 0.72rem; opacity: 0.85; font-weight: 600;">(Dr. Amita Chaturvedi)</span>
-        </button>
-      </div>
-
-      <!-- Quick Role Dropdown for Secondary Staff -->
-      <div class="role-switcher-box" style="display: none;">
-        <span>Active Role:</span>
-        <select id="role-select" aria-label="Select Active Role">
-          <option value="Director">👑 Director (Dr. K.K. Chaturvedi)</option>
-          <option value="Principal">👩‍🏫 Principal (Dr. Amita Chaturvedi)</option>
-          <option value="Teacher">🧑‍🏫 Teacher / Faculty</option>
-          <option value="Accounts">💳 Accounts & Bursar Desk</option>
-        </select>
-      </div>
-
-      <a href="index.html" class="btn-admin-site" target="_blank" title="Open Main Website in New Tab">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        Live Website
+  <!-- Unified Sticky Header (Navbar + Role Bar + ERP Tab Bar) -->
+  <header class="admin-sticky-header">
+    <!-- Top Row: Clickable School Brand & Live Website Button -->
+    <div class="admin-navbar">
+      <a href="admin.html" class="admin-brand" onclick="window.location.href='admin.html'; return false;" title="Click to refresh and return to ERP Dashboard">
+        <img src="assets/images/logo.png" alt="DPC School Crest">
+        <div class="admin-brand-text">
+          <h2>D.P.C. Role Model Excellence School</h2>
+          <p>CBSE Affiliated No. 1031077 • Multi-Role ERP Command Center</p>
+        </div>
       </a>
-    </div>
-  </header>
 
-  <!-- ERP Module Tab Navigation -->
-  <nav class="erp-tab-bar" aria-label="ERP Module Tabs">
-    <button class="erp-tab-btn active" data-tab="tab-director">
-      👑 Director Command Center
-    </button>
-    <button class="erp-tab-btn" data-tab="tab-admissions">
-      📋 Admissions
-      <span class="erp-tab-badge" id="tab-badge-admissions">6</span>
-    </button>
-    <button class="erp-tab-btn" data-tab="tab-student-attendance">
-      📅 Student Attendance ERP
-    </button>
-    <button class="erp-tab-btn" data-tab="tab-teacher-attendance">
-      👩‍🏫 Teacher Attendance ERP
-    </button>
-    <button class="erp-tab-btn" data-tab="tab-accounts">
-      💳 Accounts & Fee QR
-      <span class="erp-tab-badge" id="tab-badge-fees">₹65k</span>
-    </button>
-    <button class="erp-tab-btn" data-tab="tab-results">
-      🏆 Results & Report Cards
-    </button>
-    <button class="erp-tab-btn" data-tab="tab-homework">
-      📚 Homework & Diary
-    </button>
-    <button class="erp-tab-btn" data-tab="tab-audit-logs">
-      🛡️ Director Change Audit Log
-    </button>
-    <button class="erp-tab-btn" data-tab="tab-notices">
-      📢 Notices & Inquiries
-    </button>
-  </nav>
+      <div class="admin-nav-right">
+        <a href="index.html" class="btn-admin-site" target="_blank" title="Open Main Website in New Tab">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          <span>Live Website</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Direct 1-Click Role Switcher Bar (Zero Password Required) -->
+    <div class="admin-role-bar">
+      <button id="direct-btn-director" class="direct-role-pill active-director" onclick="selectDirectRole('Director')" title="One-click access to Director Executive Control Panel">
+        <span>👑</span>
+        <span class="role-title">Director Portal</span>
+        <span class="role-person">(Dr. K.K. Chaturvedi)</span>
+      </button>
+      <button id="direct-btn-admin" class="direct-role-pill inactive-pill" onclick="selectDirectRole('Principal')" title="One-click access to School Admin & Admissions ERP">
+        <span>👩‍🏫</span>
+        <span class="role-title">Admin & Principal ERP</span>
+        <span class="role-person">(Dr. Amita Chaturvedi)</span>
+      </button>
+    </div>
+
+    <!-- ERP Module Tab Navigation (Smooth Swipeable Bar) -->
+    <nav class="erp-tab-bar" aria-label="ERP Module Tabs">
+      <button class="erp-tab-btn active" data-tab="tab-director">
+        👑 Director Command Center
+      </button>
+      <button class="erp-tab-btn" data-tab="tab-student-attendance" style="color: #38BDF8; font-weight: 800;">
+        📅 Student Attendance ERP
+      </button>
+      <button class="erp-tab-btn" data-tab="tab-teacher-attendance" style="color: #34D399; font-weight: 800;">
+        👩‍🏫 Teacher Attendance ERP
+      </button>
+      <button class="erp-tab-btn" data-tab="tab-admissions">
+        📋 Admissions
+        <span class="erp-tab-badge" id="tab-badge-admissions">8</span>
+      </button>
+      <button class="erp-tab-btn" data-tab="tab-accounts">
+        💳 Accounts & Fee QR
+        <span class="erp-tab-badge" id="tab-badge-fees">₹77k</span>
+      </button>
+      <button class="erp-tab-btn" data-tab="tab-results">
+        🏆 Results & Report Cards
+      </button>
+      <button class="erp-tab-btn" data-tab="tab-homework">
+        📚 Homework & Diary
+      </button>
+      <button class="erp-tab-btn" data-tab="tab-audit-logs">
+        🛡️ Director Change Audit Log
+      </button>
+      <button class="erp-tab-btn" data-tab="tab-notices">
+        📢 Notices & Inquiries
+      </button>
+    </nav>
+  </header>
 
   <main class="admin-layout">
 
@@ -753,58 +882,159 @@
 
       <!-- Macro Executive KPIs -->
       <div class="admin-metrics-grid">
-        <div class="metric-card card-navy">
+        <div class="metric-card card-navy" onclick="switchErpTab('tab-student-attendance')" style="cursor: pointer;" title="Click to open Student Roster">
           <div class="metric-card-top">
             <span>Enrolled Students</span>
             <div class="metric-card-icon">🎓</div>
           </div>
           <div class="metric-card-number" id="dir-metric-students">18</div>
-          <div class="metric-card-sub">Active in Session 2026-27</div>
+          <div class="metric-card-sub">Active in Session 2026-27 →</div>
         </div>
 
-        <div class="metric-card card-emerald">
+        <div class="metric-card card-emerald" onclick="switchErpTab('tab-student-attendance')" style="cursor: pointer;" title="Click to open Student Attendance ERP">
           <div class="metric-card-top">
             <span>Student Attendance Today</span>
             <div class="metric-card-icon">📊</div>
           </div>
           <div class="metric-card-number" id="dir-metric-student-att">94.2%</div>
-          <div class="metric-card-sub">CBSE Mandate: ≥75.0%</div>
+          <div class="metric-card-sub">Click for Student Attendance ERP →</div>
         </div>
 
-        <div class="metric-card card-blue">
+        <div class="metric-card card-blue" onclick="switchErpTab('tab-teacher-attendance')" style="cursor: pointer;" title="Click to open Teacher Attendance ERP">
           <div class="metric-card-top">
             <span>Faculty & Staff Attendance</span>
             <div class="metric-card-icon">👩‍🏫</div>
           </div>
           <div class="metric-card-number" id="dir-metric-staff-att">96.0%</div>
-          <div class="metric-card-sub">Teaching & Non-Teaching Staff</div>
+          <div class="metric-card-sub">Click for Teacher Attendance ERP →</div>
         </div>
 
-        <div class="metric-card card-amber">
+        <div class="metric-card card-amber" onclick="switchErpTab('tab-accounts')" style="cursor: pointer;" title="Click to open Accounts Desk">
           <div class="metric-card-top">
             <span>YTD Fee Collection</span>
             <div class="metric-card-icon">💰</div>
           </div>
           <div class="metric-card-number" id="dir-metric-revenue">₹77,000</div>
-          <div class="metric-card-sub">Real-time UPI & Cash Ledger</div>
+          <div class="metric-card-sub">Click for Accounts & Fee QR →</div>
         </div>
 
-        <div class="metric-card card-rose">
+        <div class="metric-card card-rose" onclick="switchErpTab('tab-accounts')" style="cursor: pointer;" title="Click to view pending dues">
           <div class="metric-card-top">
             <span>Outstanding Fee Dues</span>
             <div class="metric-card-icon">⏳</div>
           </div>
           <div class="metric-card-number" id="dir-metric-dues">₹41,000</div>
-          <div class="metric-card-sub">Action list for accounts desk</div>
+          <div class="metric-card-sub">Click to inspect ledgers →</div>
         </div>
 
-        <div class="metric-card card-purple">
+        <div class="metric-card card-purple" onclick="switchErpTab('tab-admissions')" style="cursor: pointer;" title="Click to open Admissions Ledger">
           <div class="metric-card-top">
             <span>New Admissions</span>
             <div class="metric-card-icon">📋</div>
           </div>
-          <div class="metric-card-number" id="dir-metric-admissions">6</div>
-          <div class="metric-card-sub">Enrolled & Under Verification</div>
+          <div class="metric-card-number" id="dir-metric-admissions">8</div>
+          <div class="metric-card-sub">Click for Admissions Desk →</div>
+        </div>
+      </div>
+
+      <!-- Direct ERP Module Hub (Prominent Quick Launch Cards) -->
+      <div class="admin-card" style="border: 2px solid rgba(212, 175, 55, 0.4); background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);">
+        <div class="admin-card-header" style="border-bottom: 2px solid #E2E8F0;">
+          <div>
+            <h3 style="color: #061122; font-size: 1.25rem;">
+              <span>🚀 Official School ERP System Portals</span>
+            </h3>
+            <p style="color: #64748B;">Direct 1-click access to all administrative desks, daily attendance registers, student report cards, and fee accounts.</p>
+          </div>
+          <span style="background: rgba(16, 185, 129, 0.15); color: #065F46; border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 12px; border-radius: 20px; font-size: 0.76rem; font-weight: 800;">
+            ● All Systems Online
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 14px;">
+          <!-- 1. Student Attendance ERP -->
+          <div onclick="switchErpTab('tab-student-attendance')" style="background: #FFFFFF; border: 1.5px solid #38BDF8; border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.08);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 24px rgba(14, 165, 233, 0.2)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 12px rgba(14, 165, 233, 0.08)';">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 1.8rem;">📅</span>
+              <span style="background: #E0F2FE; color: #0284C7; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 20px;">CBSE Daily Roll Call</span>
+            </div>
+            <h4 style="margin: 0 0 6px; font-size: 1.05rem; color: #0369A1;">Student Attendance ERP</h4>
+            <p style="margin: 0 0 12px; font-size: 0.8rem; color: #64748B; line-height: 1.4;">Mark class-wise daily attendance, view student absentees, and monitor 75% CBSE criteria.</p>
+            <div style="color: #0284C7; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; gap: 4px;">
+              <span>Open Student Attendance Portal</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- 2. Teacher Attendance ERP -->
+          <div onclick="switchErpTab('tab-teacher-attendance')" style="background: #FFFFFF; border: 1.5px solid #34D399; border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 24px rgba(16, 185, 129, 0.2)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.08)';">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 1.8rem;">👩‍🏫</span>
+              <span style="background: #D1FAE5; color: #059669; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 20px;">Faculty Punch In</span>
+            </div>
+            <h4 style="margin: 0 0 6px; font-size: 1.05rem; color: #047857;">Teacher Attendance ERP</h4>
+            <p style="margin: 0 0 12px; font-size: 0.8rem; color: #64748B; line-height: 1.4;">Track staff presence, biometric check-in times, leave requests, and department duty logs.</p>
+            <div style="color: #059669; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; gap: 4px;">
+              <span>Open Teacher Attendance Portal</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- 3. Accounts & Fee Collection -->
+          <div onclick="switchErpTab('tab-accounts')" style="background: #FFFFFF; border: 1.5px solid #F59E0B; border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 24px rgba(245, 158, 11, 0.2)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 12px rgba(245, 158, 11, 0.08)';">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 1.8rem;">💳</span>
+              <span style="background: #FEF3C7; color: #B45309; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 20px;">UPI QR & Cash Desk</span>
+            </div>
+            <h4 style="margin: 0 0 6px; font-size: 1.05rem; color: #B45309;">Accounts & Fee Portal</h4>
+            <p style="margin: 0 0 12px; font-size: 0.8rem; color: #64748B; line-height: 1.4;">Manage student fee ledgers, generate official printable receipts, and inspect UPI transactions.</p>
+            <div style="color: #B45309; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; gap: 4px;">
+              <span>Open Accounts Desk</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- 4. Admissions Pipeline Desk -->
+          <div onclick="switchErpTab('tab-admissions')" style="background: #FFFFFF; border: 1.5px solid #D4AF37; border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.08);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 24px rgba(212, 175, 55, 0.2)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 12px rgba(212, 175, 55, 0.08)';">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 1.8rem;">📋</span>
+              <span style="background: #FFFBEB; color: #996515; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 20px;">Session 2026-27</span>
+            </div>
+            <h4 style="margin: 0 0 6px; font-size: 1.05rem; color: #996515;">Admissions Management</h4>
+            <p style="margin: 0 0 12px; font-size: 0.8rem; color: #64748B; line-height: 1.4;">Verify submitted parent applications, register walk-in students, and export official CSV registers.</p>
+            <div style="color: #996515; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; gap: 4px;">
+              <span>Open Admissions Desk</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- 5. Results & Report Cards -->
+          <div onclick="switchErpTab('tab-results')" style="background: #FFFFFF; border: 1.5px solid #8B5CF6; border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.08);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 24px rgba(139, 92, 246, 0.2)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 12px rgba(139, 92, 246, 0.08)';">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 1.8rem;">🏆</span>
+              <span style="background: #EDE9FE; color: #6D28D9; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 20px;">CBSE Grade System</span>
+            </div>
+            <h4 style="margin: 0 0 6px; font-size: 1.05rem; color: #6D28D9;">Results & Report Cards</h4>
+            <p style="margin: 0 0 12px; font-size: 0.8rem; color: #64748B; line-height: 1.4;">Record subject marks, calculate student percentages, and view official digital marks cards.</p>
+            <div style="color: #6D28D9; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; gap: 4px;">
+              <span>Open Results Portal</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- 6. Homework & Digital Diary -->
+          <div onclick="switchErpTab('tab-homework')" style="background: #FFFFFF; border: 1.5px solid #EC4899; border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(236, 72, 153, 0.08);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 24px rgba(236, 72, 153, 0.2)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 12px rgba(236, 72, 153, 0.08)';">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 1.8rem;">📚</span>
+              <span style="background: #FCE7F3; color: #BE185D; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 20px;">Daily Assignments</span>
+            </div>
+            <h4 style="margin: 0 0 6px; font-size: 1.05rem; color: #BE185D;">Homework & Digital Diary</h4>
+            <p style="margin: 0 0 12px; font-size: 0.8rem; color: #64748B; line-height: 1.4;">Publish subject-wise homework tasks, submission deadlines, and student notes directly online.</p>
+            <div style="color: #BE185D; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; gap: 4px;">
+              <span>Open Homework Desk</span>
+              <span>→</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1563,11 +1793,18 @@
     // Tab Switching Logic
     function switchErpTab(targetTabId) {
       document.querySelectorAll('.erp-tab-btn').forEach(b => {
-        b.classList.toggle('active', b.getAttribute('data-tab') === targetTabId);
+        const isActive = b.getAttribute('data-tab') === targetTabId;
+        b.classList.toggle('active', isActive);
+        if (isActive) {
+          try {
+            b.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          } catch (e) {}
+        }
       });
       document.querySelectorAll('.erp-tab-pane').forEach(p => {
         p.classList.toggle('active', p.id === targetTabId);
       });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       // Trigger data loads
       if (targetTabId === 'tab-director') loadDirectorData();
       if (targetTabId === 'tab-admissions') fetchAdmissions();

@@ -3610,6 +3610,10 @@ body.modal-locked .mobile-bottom-dock,
     gap: 0 !important;
   }
 
+  .nav-actions .nav-portal-btn {
+    display: none !important;
+  }
+
   .mobile-nav-toggle {
     display: flex !important;
     align-items: center !important;
