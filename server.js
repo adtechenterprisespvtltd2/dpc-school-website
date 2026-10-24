@@ -225,6 +225,225 @@ app.post('/api/notices', requireAdminAuth, (req, res) => {
   }
 });
 
+// =============================================================================
+// 7. ERP MODULES: FEES, DUAL ATTENDANCE, RESULTS, HOMEWORK, DIRECTOR GOVERNANCE
+// =============================================================================
+
+// --- 7A. DIRECTOR COMMAND CENTER & AUDIT LOGS ---
+app.get('/api/director/overview', requireAdminAuth, (req, res) => {
+  try {
+    const overview = dbService.getDirectorOverview();
+    res.json({ success: true, ...overview });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/audit-logs', requireAdminAuth, (req, res) => {
+  try {
+    const { role, actionType, limit } = req.query;
+    const logs = dbService.getActivityLogs({ role, actionType, limit: parseInt(limit, 10) || 50 });
+    res.json({ success: true, count: logs.length, data: logs });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// --- 7B. STUDENT & TEACHER ROSTERS ---
+app.get('/api/students', (req, res) => {
+  try {
+    const { grade } = req.query;
+    const students = dbService.getStudents({ grade });
+    res.json({ success: true, count: students.length, data: students });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/teachers', (req, res) => {
+  try {
+    const teachers = dbService.getTeachers();
+    res.json({ success: true, count: teachers.length, data: teachers });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// --- 7C. FEES & UPI QR RECEIPT SYSTEM ---
+app.get('/api/fees', requireAdminAuth, (req, res) => {
+  try {
+    const { grade, feeType, search, limit } = req.query;
+    const payments = dbService.getFeePayments({ grade, feeType, search, limit: parseInt(limit, 10) || 50 });
+    res.json({ success: true, count: payments.length, data: payments });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/fees/summary', requireAdminAuth, (req, res) => {
+  try {
+    const summary = dbService.getAccountsSummary();
+    res.json({ success: true, summary });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/fees/receipt/:id', (req, res) => {
+  try {
+    const receipt = dbService.getFeeReceiptById(req.params.id);
+    if (!receipt) {
+      return res.status(404).json({ success: false, message: 'Fee receipt record not found.' });
+    }
+    res.json({ success: true, receipt });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/fees/pay', (req, res) => {
+  try {
+    const { scholarNo, studentName, grade, feeType, amount, paymentMode, transactionRef, notes, recordedBy } = req.body;
+    if (!studentName || !amount) {
+      return res.status(400).json({ success: false, message: 'Student Name and Fee Amount are mandatory.' });
+    }
+    const receipt = dbService.recordFeePayment({
+      scholarNo,
+      studentName,
+      grade,
+      feeType,
+      amount,
+      paymentMode,
+      transactionRef,
+      notes,
+      recordedBy
+    });
+    res.status(201).json({
+      success: true,
+      message: `Fee payment confirmed and official receipt generated: ${receipt.receiptNo}`,
+      receipt
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// --- 7D. DUAL ATTENDANCE SYSTEM: STUDENT & TEACHER ---
+app.get('/api/attendance/students', (req, res) => {
+  try {
+    const { date, grade, section } = req.query;
+    const data = dbService.getStudentAttendance(date, grade, section);
+    res.json({ success: true, ...data });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/attendance/students', requireAdminAuth, (req, res) => {
+  try {
+    const { date, grade, section, attendanceList, markedBy } = req.body;
+    if (!grade || !Array.isArray(attendanceList)) {
+      return res.status(400).json({ success: false, message: 'Grade and attendanceList array are required.' });
+    }
+    const result = dbService.markStudentAttendance({ date, grade, section, attendanceList, markedBy });
+    res.json({ success: true, message: `Student attendance saved for ${grade} (${section || 'A'}) on ${date}.`, ...result });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/attendance/teachers', requireAdminAuth, (req, res) => {
+  try {
+    const { date } = req.query;
+    const data = dbService.getTeacherAttendance(date);
+    res.json({ success: true, ...data });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/attendance/teachers', requireAdminAuth, (req, res) => {
+  try {
+    const { date, attendanceList, markedBy } = req.body;
+    if (!Array.isArray(attendanceList)) {
+      return res.status(400).json({ success: false, message: 'attendanceList array is required.' });
+    }
+    const result = dbService.markTeacherAttendance({ date, attendanceList, markedBy });
+    res.json({ success: true, message: `Faculty attendance updated for ${date}.`, ...result });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// --- 7E. EXAMINATION RESULTS & CBSE REPORT CARDS ---
+app.get('/api/results', (req, res) => {
+  try {
+    const { grade, term, search } = req.query;
+    const results = dbService.getExamResults({ grade, term, search });
+    res.json({ success: true, count: results.length, data: results });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/results/report-card/:id', (req, res) => {
+  try {
+    const card = dbService.getReportCardById(req.params.id);
+    if (!card) {
+      return res.status(404).json({ success: false, message: 'Report card not found.' });
+    }
+    res.json({ success: true, reportCard: card });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/results', requireAdminAuth, (req, res) => {
+  try {
+    const { studentId, scholarNo, studentName, grade, section, term, subjects, remarks } = req.body;
+    if (!studentName || !grade || !subjects) {
+      return res.status(400).json({ success: false, message: 'studentName, grade and subjects array are required.' });
+    }
+    const card = dbService.insertOrUpdateResult({ studentId, scholarNo, studentName, grade, section, term, subjects, remarks });
+    res.status(201).json({ success: true, message: 'Exam marks recorded and report card generated.', reportCard: card });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// --- 7F. HOMEWORK & DIGITAL DIARY ---
+app.get('/api/homework', (req, res) => {
+  try {
+    const { grade, search } = req.query;
+    const hw = dbService.getHomework({ grade, search });
+    res.json({ success: true, count: hw.length, data: hw });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/homework', requireAdminAuth, (req, res) => {
+  try {
+    const { grade, section, subject, title, description, dueDate, attachmentInfo, assignedBy } = req.body;
+    if (!grade || !subject || !title || !dueDate) {
+      return res.status(400).json({ success: false, message: 'Grade, Subject, Title, and Due Date are required.' });
+    }
+    const item = dbService.insertHomework({ grade, section, subject, title, description, dueDate, attachmentInfo, assignedBy });
+    res.status(201).json({ success: true, message: 'Homework posted successfully.', data: item });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.delete('/api/homework/:id', requireAdminAuth, (req, res) => {
+  try {
+    const success = dbService.deleteHomework(req.params.id);
+    res.json({ success, message: success ? 'Homework deleted.' : 'Homework not found.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // -----------------------------------------------------------------------------
 // STATIC FILE SERVING & DATA LEAK PROTECTION SHIELD
 // -----------------------------------------------------------------------------

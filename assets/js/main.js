@@ -662,4 +662,329 @@ document.addEventListener('DOMContentLoaded', () => {
       window.print();
     });
   }
+
+  // ===================================================================
+  // 14. STUDENT & PARENT DIGITAL SERVICES (FEES, REPORT CARDS, HOMEWORK)
+  // ===================================================================
+  const feeModal = document.getElementById('fee-payment-modal');
+  const feeModalClose = document.getElementById('fee-modal-close-btn');
+  const openFeeBtns = document.querySelectorAll('.trigger-fee-modal');
+
+  function openFeeModal() {
+    if (typeof closeDrawer === 'function') closeDrawer();
+    if (feeModal) {
+      feeModal.classList.add('active');
+      lockBackgroundScroll();
+    }
+  }
+
+  function closeFeeModal() {
+    if (feeModal) {
+      feeModal.classList.remove('active');
+      unlockBackgroundScroll();
+    }
+  }
+
+  openFeeBtns.forEach(btn => btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openFeeModal();
+  }));
+
+  if (feeModalClose) feeModalClose.addEventListener('click', closeFeeModal);
+  if (feeModal) {
+    feeModal.addEventListener('click', (e) => {
+      if (e.target === feeModal) closeFeeModal();
+    });
+  }
+
+  // Live UPI QR generation for public fee modal
+  const pubFeeAmount = document.getElementById('pub-fee-amount');
+  const pubQrImg = document.getElementById('pub-qr-img');
+  if (pubFeeAmount && pubQrImg) {
+    pubFeeAmount.addEventListener('input', () => {
+      const amt = pubFeeAmount.value || 11500;
+      const vpa = 'dpcrolemodelschool@upi';
+      const name = encodeURIComponent('DPC Role Model Excellence School');
+      pubQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi%3A%2F%2Fpay%3Fpa%3D${vpa}%26pn%3D${name}%26am%3D${amt}%26cu%3DINR`;
+    });
+  }
+
+  // Public Fee Payment Form Submit
+  const pubFeeForm = document.getElementById('public-fee-pay-form');
+  const publicReceiptModal = document.getElementById('public-receipt-modal');
+  const publicReceiptClose = document.getElementById('public-receipt-close-btn');
+
+  if (pubFeeForm) {
+    pubFeeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const studentName = document.getElementById('pub-fee-student').value;
+      const grade = document.getElementById('pub-fee-grade').value;
+      const scholarNo = document.getElementById('pub-fee-scholar').value || 'DPC/2026/ONLINE';
+      const feeType = document.getElementById('pub-fee-type').value;
+      const amount = parseFloat(document.getElementById('pub-fee-amount').value) || 0;
+      const transactionRef = document.getElementById('pub-fee-utr').value || `UPI/${Date.now().toString().slice(-8)}`;
+
+      try {
+        const response = await fetch('/api/fees/pay', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            studentName,
+            grade,
+            scholarNo,
+            feeType,
+            amount,
+            paymentMode: 'UPI QR',
+            transactionRef,
+            recordedBy: 'Online Parent Portal'
+          })
+        });
+
+        const resData = await response.json();
+        closeFeeModal();
+
+        if (resData.success && resData.receipt) {
+          renderPublicReceipt(resData.receipt);
+          showToast(`🎉 Fee payment verified! Official Receipt ${resData.receipt.receiptNo} generated.`);
+        }
+      } catch (err) {
+        closeFeeModal();
+        showToast('Payment registered! Our accounts office will verify the transaction.');
+      }
+    });
+  }
+
+  function renderPublicReceipt(r) {
+    const doc = document.getElementById('public-receipt-doc');
+    if (!doc || !publicReceiptModal) return;
+
+    doc.innerHTML = `
+      <div class="doc-watermark">PAID ✓</div>
+      <div style="display:flex; align-items:center; gap:16px; padding-bottom:14px; border-bottom:2px solid #0F284E; margin-bottom:16px;">
+        <img src="assets/images/logo.png" alt="DPC Emblem" style="width:60px; height:60px; object-fit:contain; border-radius:50%;">
+        <div>
+          <h2 style="margin:0; font-size:1.3rem; color:#061122;">${r.school.name}</h2>
+          <div style="font-size:0.75rem; color:#8C6A1A; font-weight:800; letter-spacing:0.5px;">${r.school.affiliation} • CODE: ${r.school.schoolCode}</div>
+          <div style="font-size:0.72rem; color:#64748B;">${r.school.address}</div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-bottom:16px;">
+        <span style="background:#0F284E; color:#FFFFFF; padding:4px 18px; border-radius:20px; font-weight:800; font-size:0.8rem; letter-spacing:1px;">OFFICIAL STUDENT FEE RECEIPT</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0; font-size:0.82rem;">
+        <div>
+          <div><strong>Receipt No:</strong> <span style="color:#0284C7; font-weight:800;">${r.receiptNo}</span></div>
+          <div><strong>Student Name:</strong> ${r.studentName}</div>
+          <div><strong>Scholar / Roll No:</strong> ${r.scholarNo}</div>
+        </div>
+        <div>
+          <div><strong>Class / Grade:</strong> ${r.grade}</div>
+          <div><strong>Payment Date:</strong> ${r.paymentDate}</div>
+          <div><strong>Payment Mode:</strong> ${r.paymentMode}</div>
+        </div>
+      </div>
+
+      <table style="width:100%; border-collapse:collapse; margin-bottom:18px; font-size:0.85rem;">
+        <thead>
+          <tr style="background:#F1F5F9; border-bottom:2px solid #CBD5E1;">
+            <th style="padding:8px; text-align:left;">S.No</th>
+            <th style="padding:8px; text-align:left;">Fee Particulars</th>
+            <th style="padding:8px; text-align:right;">Amount (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #E2E8F0;">
+            <td style="padding:10px 8px;">1</td>
+            <td style="padding:10px 8px;">${r.feeType}</td>
+            <td style="padding:10px 8px; text-align:right; font-weight:700;">₹${r.amount.toLocaleString('en-IN')}</td>
+          </tr>
+          <tr style="background:#F8FAFC; font-weight:800; font-size:0.95rem;">
+            <td colspan="2" style="padding:10px 8px; text-align:right;">Total Amount Paid:</td>
+            <td style="padding:10px 8px; text-align:right; color:#15803D;">₹${r.amount.toLocaleString('en-IN')}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="font-size:0.75rem; color:#64748B; margin-bottom:24px;">
+        <div>Transaction UTR: <code>${r.transactionRef}</code></div>
+        <div>Received By: ${r.recordedBy}</div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; padding-top:16px; border-top:1px dashed #CBD5E1; font-size:0.75rem;">
+        <div style="color:#64748B;">
+          * Digitally verified receipt generated by D.P.C. Online ERP.
+        </div>
+        <div style="text-align:center;">
+          <div style="font-weight:800; color:#0F284E; margin-bottom:24px;">[ Authorized Accounts Signatory ]</div>
+          <div style="border-top:1px solid #061122; width:150px; margin:0 auto; padding-top:4px;">Bursar / Cashier Seal</div>
+        </div>
+      </div>
+    `;
+
+    publicReceiptModal.classList.add('active');
+    lockBackgroundScroll();
+  }
+
+  if (publicReceiptClose) {
+    publicReceiptClose.addEventListener('click', () => {
+      publicReceiptModal.classList.remove('active');
+      unlockBackgroundScroll();
+    });
+  }
+
+  // Public Report Card Search & View
+  const btnCheckReportCard = document.getElementById('btn-check-report-card');
+  const publicReportModal = document.getElementById('public-report-card-modal');
+  const publicReportClose = document.getElementById('public-report-close-btn');
+
+  if (btnCheckReportCard) {
+    btnCheckReportCard.addEventListener('click', async () => {
+      const scholar = document.getElementById('public-report-scholar-input').value.trim();
+      if (!scholar) {
+        showToast('Please enter a Student Scholar No or Student Name (e.g. Aayush or 0142).');
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/results?search=${encodeURIComponent(scholar)}`);
+        const data = await res.json();
+        if (data.success && data.data && data.data.length > 0) {
+          const firstResult = data.data[0];
+          // Fetch full card
+          const cardRes = await fetch(`/api/results/report-card/${firstResult.id}`);
+          const cardData = await cardRes.json();
+          if (cardData.success && cardData.reportCard) {
+            renderPublicReportCard(cardData.reportCard);
+          }
+        } else {
+          showToast(`No report card record found matching "${scholar}". Please verify with class teacher.`);
+        }
+      } catch (err) {
+        showToast('Error querying report card records.');
+      }
+    });
+  }
+
+  function renderPublicReportCard(c) {
+    const doc = document.getElementById('public-report-card-doc');
+    if (!doc || !publicReportModal) return;
+
+    doc.innerHTML = `
+      <div style="display:flex; align-items:center; gap:16px; padding-bottom:14px; border-bottom:2px solid #0F284E; margin-bottom:16px;">
+        <img src="assets/images/logo.png" alt="DPC Emblem" style="width:60px; height:60px; object-fit:contain; border-radius:50%;">
+        <div>
+          <h2 style="margin:0; font-size:1.35rem; color:#061122;">${c.school.name}</h2>
+          <div style="font-size:0.75rem; color:#8C6A1A; font-weight:800; letter-spacing:0.5px;">${c.school.affiliation} • CODE: ${c.school.schoolCode}</div>
+          <div style="font-size:0.72rem; color:#64748B;">${c.school.address}</div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-bottom:16px;">
+        <span style="background:#0F284E; color:#FFFFFF; padding:4px 18px; border-radius:20px; font-weight:800; font-size:0.82rem; letter-spacing:1px;">CBSE SCHOLASTIC PERFORMANCE REPORT CARD</span>
+        <div style="font-size:0.75rem; color:#64748B; margin-top:4px;">Academic Session: <strong>${c.examYear}</strong> • Term: <strong>${c.term}</strong></div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0; font-size:0.8rem; margin-bottom:16px;">
+        <div><strong>Student Name:</strong> ${c.studentName}</div>
+        <div><strong>Scholar No:</strong> ${c.scholarNo}</div>
+        <div><strong>Roll No:</strong> ${c.rollNo}</div>
+        <div><strong>Father / Guardian:</strong> ${c.parentName}</div>
+        <div><strong>Class & Section:</strong> ${c.grade} (${c.section})</div>
+        <div><strong>Attendance:</strong> ${c.attendancePct}%</div>
+      </div>
+
+      <table style="width:100%; border-collapse:collapse; margin-bottom:18px; font-size:0.82rem;">
+        <thead>
+          <tr style="background:#F1F5F9; border-bottom:2px solid #CBD5E1;">
+            <th style="padding:8px; text-align:left;">Subject</th>
+            <th style="padding:8px; text-align:center;">Max Marks</th>
+            <th style="padding:8px; text-align:center;">Marks Scored</th>
+            <th style="padding:8px; text-align:center;">CBSE Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${c.subjects.map(s => `
+            <tr style="border-bottom:1px solid #E2E8F0;">
+              <td style="padding:8px; font-weight:700;">${s.name}</td>
+              <td style="padding:8px; text-align:center;">${s.maxMarks}</td>
+              <td style="padding:8px; text-align:center; font-weight:800; color:#0F284E;">${s.marks}</td>
+              <td style="padding:8px; text-align:center;"><span style="background:#DCFCE7; color:#15803D; padding:2px 8px; border-radius:12px; font-weight:700;">${s.grade || 'A1'}</span></td>
+            </tr>
+          `).join('')}
+          <tr style="background:#F8FAFC; font-weight:800; font-size:0.9rem;">
+            <td style="padding:10px 8px; text-align:right;">Grand Total:</td>
+            <td style="padding:10px 8px; text-align:center;">${c.maxMarks}</td>
+            <td style="padding:10px 8px; text-align:center; color:#15803D;">${c.totalMarks}</td>
+            <td style="padding:10px 8px; text-align:center;"><span style="background:#0F284E; color:#FFFFFF; padding:2px 10px; border-radius:12px;">${c.gradeLetter} (${c.percentage}%)</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="background:#FAF8F5; border:1px solid #F1E5D1; border-radius:8px; padding:12px; font-size:0.8rem; margin-bottom:24px;">
+        <strong>Teacher & Principal Remarks:</strong> <em>"${c.remarks}"</em>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; padding-top:16px; font-size:0.75rem;">
+        <div style="text-align:center;">
+          <div style="border-top:1px solid #061122; width:130px; padding-top:4px; font-weight:700;">Class Teacher</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-weight:800; color:#0F284E;">Dr. Amita Chaturvedi</div>
+          <div style="border-top:1px solid #061122; width:130px; padding-top:4px; font-weight:700;">Principal Seal</div>
+        </div>
+      </div>
+    `;
+
+    publicReportModal.classList.add('active');
+    lockBackgroundScroll();
+  }
+
+  if (publicReportClose) {
+    publicReportClose.addEventListener('click', () => {
+      publicReportModal.classList.remove('active');
+      unlockBackgroundScroll();
+    });
+  }
+
+  // Public Homework Loader by Class
+  const btnViewClassHw = document.getElementById('btn-view-class-hw');
+  if (btnViewClassHw) {
+    btnViewClassHw.addEventListener('click', async () => {
+      const selectedGrade = document.getElementById('public-hw-class-select').value;
+      const displayBox = document.getElementById('public-homework-display');
+      const headerTitle = document.getElementById('public-hw-title-header');
+      const grid = document.getElementById('public-hw-cards-grid');
+
+      try {
+        const res = await fetch(`/api/homework?grade=${encodeURIComponent(selectedGrade)}`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          headerTitle.innerText = `Active Homework for ${selectedGrade}`;
+          if (json.data.length === 0) {
+            grid.innerHTML = `<div style="color:#64748B; font-size:0.85rem; padding:12px;">No active homework pending for ${selectedGrade}.</div>`;
+          } else {
+            grid.innerHTML = json.data.map(hw => `
+              <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:16px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                  <span style="background:#E0F2FE; color:#0369A1; font-weight:700; font-size:0.75rem; padding:2px 8px; border-radius:12px;">${hw.subject}</span>
+                  <span style="color:#D97706; font-weight:700; font-size:0.75rem;">Due: ${hw.due_date}</span>
+                </div>
+                <h4 style="margin:6px 0; color:#0F284E; font-size:0.95rem;">${hw.title}</h4>
+                <p style="margin:0 0 8px; font-size:0.82rem; color:#475569; line-height:1.4;">${hw.description}</p>
+                <div style="font-size:0.72rem; color:#64748B; border-top:1px solid #E2E8F0; padding-top:6px;">
+                  Teacher: <strong>${hw.assigned_by}</strong>
+                </div>
+              </div>
+            `).join('');
+          }
+          displayBox.style.display = 'block';
+          displayBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      } catch (e) {
+        showToast('Error fetching homework assignments.');
+      }
+    });
+  }
 });

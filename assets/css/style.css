@@ -3875,3 +3875,116 @@ body.modal-locked .mobile-bottom-dock,
   }
 }
 
+/* ===================================================================
+   18. STUDENT & PARENT DIGITAL SERVICES CORNER & FEE PAYMENT STYLES
+   =================================================================== */
+.portal-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 36px;
+}
+
+@media (max-width: 992px) {
+  .portal-services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.portal-service-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 28px 24px;
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
+}
+
+.portal-service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+  border-color: #D4AF37;
+}
+
+.portal-card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.portal-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+
+.portal-card-desc {
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.portal-card-action {
+  margin-top: auto;
+}
+
+/* Printable Official Receipt & Report Card Styles */
+.official-print-document {
+  background: #FFFFFF;
+  padding: 32px 28px;
+  border: 2px solid #E2E8F0;
+  border-radius: 12px;
+  color: #061122;
+  font-size: 0.88rem;
+  position: relative;
+}
+
+.doc-watermark {
+  position: absolute;
+  right: 28px;
+  top: 130px;
+  transform: rotate(-12deg);
+  border: 2px dashed #059669;
+  color: #059669;
+  padding: 6px 14px;
+  font-weight: 900;
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable-modal-content, .printable-modal-content * {
+    visibility: visible;
+  }
+  .printable-modal-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .no-print-btn {
+    display: none !important;
+  }
+}
+
+

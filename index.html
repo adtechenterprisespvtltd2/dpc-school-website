@@ -17,7 +17,7 @@
   <link rel="icon" type="image/png" href="assets/images/logo.png">
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css?v=3.9">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
 </head>
 <body>
   <!-- Dynamic Top Scroll Progress Indicator -->
@@ -163,6 +163,9 @@
             <a href="#admissions" class="nav-link">Admissions</a>
           </li>
           <li class="nav-item">
+            <a href="#student-portal" class="nav-link" style="color: #FFDF00; font-weight: 700;">Student Corner</a>
+          </li>
+          <li class="nav-item">
             <a href="#gallery" class="nav-link">Campus Life</a>
           </li>
           <li class="nav-item">
@@ -173,6 +176,9 @@
 
       <!-- Nav Actions - Sleek Non-Wrapping CTA -->
       <div class="nav-actions">
+        <button class="btn-primary trigger-fee-modal" id="btn-header-pay-fee" style="background: rgba(212, 175, 55, 0.15); border: 1.5px solid #D4AF37; color: #FFDF00; padding: 7px 14px; font-size: 0.82rem; font-weight: 700; border-radius: var(--radius-full); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <span>💳 Pay Fees</span>
+        </button>
         <button class="btn-primary trigger-admission-modal" id="btn-admission-header">
           <span>⚡ Apply 2026-27</span>
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -213,6 +219,8 @@
       <li><a href="#facilities" class="drawer-link"><span class="drawer-icon">🔬</span> Smart Labs & Facilities</a></li>
       <li><a href="#cbse-corner" class="drawer-link"><span class="drawer-icon">📜</span> CBSE Mandatory Disclosure</a></li>
       <li><a href="#admissions" class="drawer-link"><span class="drawer-icon">📝</span> Admissions & Eligibility</a></li>
+      <li><a href="#student-portal" class="drawer-link" style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3);"><span class="drawer-icon">🎓</span> Student Diary, Results & Attendance</a></li>
+      <li><a href="#" class="drawer-link trigger-fee-modal" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #065F46;"><span class="drawer-icon">💳</span> Online Fee Payment & Receipt</a></li>
       <li><a href="#gallery" class="drawer-link"><span class="drawer-icon">📸</span> Life @ DPC Gallery</a></li>
       <li><a href="#testimonials" class="drawer-link"><span class="drawer-icon">⭐</span> Parent Testimonials</a></li>
       <li><a href="#contact" class="drawer-link"><span class="drawer-icon">📍</span> Contact & Location</a></li>
@@ -1286,6 +1294,85 @@
   </section>
 
   <!-- ===================================================================
+       10B. STUDENT & PARENT DIGITAL SERVICES CORNER
+       =================================================================== -->
+  <section class="section-padding student-portal-section" id="student-portal" style="background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);">
+    <div class="container">
+      <div class="section-header-center reveal">
+        <span class="section-badge section-badge-gold">Digital Campus ERP</span>
+        <h2 class="section-title">Student & Parent Digital Services</h2>
+        <p class="section-subtitle">
+          Online fee payments with dynamic UPI QR, verified digital receipts, CBSE progress report cards, daily homework, and student attendance tracking.
+        </p>
+      </div>
+
+      <div class="portal-services-grid reveal">
+        <!-- Service 1: Fee Payment & Instant Receipt -->
+        <div class="portal-service-card">
+          <div class="portal-card-icon">💳</div>
+          <h3 class="portal-card-title">Online Fee Payment & QR</h3>
+          <p class="portal-card-desc">
+            Pay quarterly tuition, admission, or transport fees instantly using phone UPI (GPay, PhonePe, Paytm). An official CBSE fee receipt with digital verification watermark is generated immediately upon payment.
+          </p>
+          <div class="portal-card-action">
+            <button class="btn-primary trigger-fee-modal" style="width: 100%; justify-content: center; padding: 12px;">
+              <span>⚡ Pay Fees & Get Receipt</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Service 2: Report Card & Exam Results -->
+        <div class="portal-service-card">
+          <div class="portal-card-icon">🏆</div>
+          <h3 class="portal-card-title">Exam Results & Report Cards</h3>
+          <p class="portal-card-desc">
+            Access certified CBSE scholastic progress report cards for Periodic Assessments, Half-Yearly, and Board Mock Exams. Enter the student's Scholar No. or Roll No. to view and download.
+          </p>
+          <div class="portal-card-action">
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="public-report-scholar-input" placeholder="Scholar / Roll No..." style="flex: 1; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 0.82rem; outline: none;">
+              <button class="btn-secondary" id="btn-check-report-card" style="padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; background: #0F284E; color: #FFFFFF; border: none; cursor: pointer;">
+                View Card
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service 3: Daily Homework & Digital Diary -->
+        <div class="portal-service-card">
+          <div class="portal-card-icon">📚</div>
+          <h3 class="portal-card-title">Daily Homework & Diary</h3>
+          <p class="portal-card-desc">
+            Stay up to date with class assignments, teacher instructions, and submission deadlines. Check daily homework by selecting the student's class.
+          </p>
+          <div class="portal-card-action">
+            <div style="display: flex; gap: 8px;">
+              <select id="public-hw-class-select" style="flex: 1; padding: 10px 12px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 0.82rem; outline: none; background: #FFFFFF;">
+                <option value="Class 10">Class 10</option>
+                <option value="Class 11 Science">Class 11 Science</option>
+                <option value="Class 6">Class 6</option>
+                <option value="Class 1">Class 1</option>
+              </select>
+              <button class="btn-secondary" id="btn-view-class-hw" style="padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; background: #D4AF37; color: #061122; border: none; cursor: pointer;">
+                View Tasks
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Interactive Homework & Diary Container (Expands when clicked) -->
+      <div id="public-homework-display" style="display: none; margin-top: 30px; background: #FFFFFF; border: 1.5px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #E2E8F0;">
+          <h3 style="margin: 0; color: #0F284E; font-size: 1.2rem;" id="public-hw-title-header">Active Homework & Assignments</h3>
+          <button onclick="document.getElementById('public-homework-display').style.display='none'" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">✕</button>
+        </div>
+        <div id="public-hw-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
        11. LIFE AT DPC GALLERY
        =================================================================== -->
   <section class="section-padding gallery-section" id="gallery">
@@ -1754,6 +1841,136 @@
     </form>
   </div>
 
+  <!-- ===================================================================
+       16B. ONLINE FEE PAYMENT & DYNAMIC UPI QR MODAL
+       =================================================================== -->
+  <div class="modal-backdrop" id="fee-payment-modal">
+    <div class="modal-window" style="max-width: 540px;">
+      <div class="modal-header">
+        <div>
+          <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #FFDF00; font-weight: 700;">Official School Fee Portal</span>
+          <h3 style="margin-top: 2px;">Pay Fees & Download Receipt</h3>
+        </div>
+        <button class="modal-close-btn" id="fee-modal-close-btn" aria-label="Close dialog">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="public-fee-pay-form">
+          <div class="form-group">
+            <label class="form-label" for="pub-fee-student">Student Full Name *</label>
+            <input type="text" id="pub-fee-student" class="form-control" placeholder="e.g. Aayush Sahu" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label" for="pub-fee-grade">Class / Grade *</label>
+              <select id="pub-fee-grade" class="form-control" required>
+                <option value="Class 10">Class 10</option>
+                <option value="Class 11 Science">Class 11 (Science)</option>
+                <option value="Class 11 Commerce">Class 11 (Commerce)</option>
+                <option value="Class 9">Class 9</option>
+                <option value="Class 6">Class 6</option>
+                <option value="Class 1">Class 1</option>
+                <option value="Nursery">Nursery / KG</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="pub-fee-scholar">Scholar No (Optional)</label>
+              <input type="text" id="pub-fee-scholar" class="form-control" placeholder="DPC/2024/0142">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label" for="pub-fee-type">Fee Particulars *</label>
+              <select id="pub-fee-type" class="form-control">
+                <option value="Tuition Fee (Q1)">Tuition Fee (Quarter 1)</option>
+                <option value="Tuition Fee (Q2)">Tuition Fee (Quarter 2)</option>
+                <option value="Admission Fee">Admission & Enrolment</option>
+                <option value="Bus Transport Fee">Bus Transport Fee</option>
+                <option value="Exam & Activity Fee">Exam & Annual Activity</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="pub-fee-amount">Amount (₹) *</label>
+              <input type="number" id="pub-fee-amount" class="form-control" value="11500" required>
+            </div>
+          </div>
+
+          <!-- Dynamic UPI QR Scanner Area -->
+          <div style="background: #F8FAFC; border: 1.5px dashed #D4AF37; border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 16px;">
+            <div style="font-weight: 800; font-size: 0.82rem; color: #0F284E; margin-bottom: 8px;">
+              Scan with any UPI App (GPay / PhonePe / Paytm / BHIM)
+            </div>
+            <img id="pub-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi%3A%2F%2Fpay%3Fpa%3Ddpcrolemodelschool%40upi%26pn%3DDPC%20Role%20Model%20Excellence%20School%26am%3D11500%26cu%3DINR" alt="UPI QR Code" style="width: 150px; height: 150px; margin: 0 auto; display: block; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <div style="font-size: 0.72rem; color: #64748B; margin-top: 8px;">
+              Official School VPA: <strong style="color: #061122;">dpcrolemodelschool@upi</strong>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pub-fee-utr">UPI Transaction Reference / UTR Number (Optional)</label>
+            <input type="text" id="pub-fee-utr" class="form-control" placeholder="12-digit UPI Ref e.g. 629104829104">
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px; font-size: 0.95rem;">
+            ⚡ Complete Payment & Generate Verified Receipt
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       16C. OFFICIAL VERIFIED FEE RECEIPT MODAL (PRINTABLE)
+       =================================================================== -->
+  <div class="modal-backdrop" id="public-receipt-modal">
+    <div class="modal-window" style="max-width: 680px; background: #F8FAFC;">
+      <div class="modal-header no-print-btn">
+        <div>
+          <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #FFDF00; font-weight: 700;">Payment Success</span>
+          <h3 style="margin-top: 2px;">Official Fee Receipt</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button onclick="window.print()" style="background: #D4AF37; color: #061122; border: none; padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 0.8rem; cursor: pointer;">🖨️ Print / Save PDF</button>
+          <button class="modal-close-btn" id="public-receipt-close-btn">✕</button>
+        </div>
+      </div>
+
+      <div class="modal-body printable-modal-content" style="padding: 16px;">
+        <div class="official-print-document" id="public-receipt-doc">
+          <!-- Populated via JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       16D. OFFICIAL CBSE REPORT CARD MODAL (PRINTABLE)
+       =================================================================== -->
+  <div class="modal-backdrop" id="public-report-card-modal">
+    <div class="modal-window" style="max-width: 760px; background: #F8FAFC;">
+      <div class="modal-header no-print-btn">
+        <div>
+          <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #FFDF00; font-weight: 700;">Examination Record</span>
+          <h3 style="margin-top: 2px;">CBSE Progress Report Card</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button onclick="window.print()" style="background: #D4AF37; color: #061122; border: none; padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 0.8rem; cursor: pointer;">🖨️ Print / Save PDF</button>
+          <button class="modal-close-btn" id="public-report-close-btn">✕</button>
+        </div>
+      </div>
+
+      <div class="modal-body printable-modal-content" style="padding: 16px;">
+        <div class="official-print-document" id="public-report-card-doc">
+          <!-- Populated via JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Lightbox Preview Modal -->
   <div class="modal-backdrop" id="lightbox-modal">
     <div style="position: relative; max-width: 900px; width: 95%;">
@@ -1769,6 +1986,6 @@
   </div>
 
   <!-- Interactive Scripts -->
-  <script src="assets/js/main.js?v=3.9"></script>
+  <script src="assets/js/main.js?v=4.0"></script>
 </body>
 </html>
